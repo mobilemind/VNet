@@ -1,213 +1,210 @@
 <!DOCTYPE HTML>
-<html lang=en manifest=vnet.manifest>
-<head>
-<meta http-equiv=content-type content="text/html;charset=utf-8">
-<meta name=keywords content="iPad,VisitorNet,Bookmarklet,maker,generator,javascript,paste,login,pastelet,Boeing,Email/Login">
-<meta name=robots content="index,nofollow">
-<meta name=viewport content="width=device-width,user-scalable=no">
-<meta name=format-detection content="telephone=no">
-<link rel=apple-touch-icon href="img/pastelet-icon.png">
-<link rel=canonical href="http://mobilemind.net/vnet">
-<style type="text/css">
-body {
-	margin: 0;
-	padding: 0;
-	width: 100%;
-	background-color: #003dbd;
-	font-family: Helvetica, sans-serif;
-	font-size: 17px;
-	-webkit-text-size-adjust: none
-}
-#pg {
-	margin: 0;
-	padding-bottom: 15px;
-	background-color: #003dbd;
-	border: 1px solid #DE7008
-}
-h1 {
-	font-size:17px;
-	color: #FFFAFA;
-	margin: 14px 9px 6px 20px;
-	padding: 0
-}
-p {
-	margin: 0;
-	font-weight: normal;
-	padding:7px
-}
-form {
-	border: hidden;
-	margin: 0;
-	font-weight: normal;
-	padding: 7px
-}
-div.grp {
-	margin: 0 10px;
-	padding: 0;
-	width: 92%;
-	background-color: #e0e4eb;
-	border: 1px solid #d9d9d9;
-	font-size: 15px;
-	-webkit-border-radius: 8px;
-	-moz-border-radius: 8px
-}
-div.fig {
-	margin: 0;
-	padding: 4px 10px
-}
-.btn {
-	height: 40px;
-	width: 200px;
-	font: larger bolder;
-	color: #FFF;
-	background-color: #00349f;
-	border: 3px solid;
-	border-color: #666 #000 #000 #666;
-	-webkit-appearance:button;
-	-webkit-border-radius: 6px;
-	-moz-border-radius: 6px
-}
-.vers {
-	margin: 2px 2px;
-	font-size: x-small;
-	width: 92%;
-	text-align: right
-}
-</style>
-<!-- version 1.0.0; 2011/08/05 18:30 Tom King;
-
-	VNet a Pastelet to simplify use of VisitorNet
-	URL first displays as http://mobilemind.net/vnetroll?javascript:var%20s='…
-	Copyright (c) 2011 Tom King. All rights reserved.
--->
-	
-<!-- code w/onLoad handler + function to create bookmarklet string -->
-<script type="text/javascript">
-// listener to dynamically position page for initial or return-trip 
-window.addEventListener('load',
-	function() {
-		var q = location.search, p = '', skp;
-		if ('' != q) {
-				// reload form UI from query string
-				try {
-					p = decodeURIComponent(q.match(/^\?javascript:var( |%20)s=('|%27)(.*?)('|%27);/)[3]);
-					document.title = 'VNet ' + p.replace(/@.*/, "…");
-					document.getElementById('pStr').value = p;
-					// put a more human-readable, but compatible, version of bookmarklet in textarea
-					document.getElementById('bmrk').textContent = q.substring(1).replace(/\%27/g,"'");
-					// if not iPhone/iPad unhide 'Pastelet as link' and set anchor tag
-					if (!(-1 != navigator.userAgent.indexOf('Safari') && -1 != navigator.userAgent.indexOf('Mobile'))) {
-						var pal = document.getElementById('pal'), pl = document.getElementById('pl');
-						if (null != pal && null != pl) {
-							pal.setAttribute("style", "display:inline;padding:7px;height:auto");
-							pl.setAttribute('href', q.substring(1));			
-							pl.setAttribute('title', document.title);
-							pl.innerHTML = document.title;
-						}
+<html lang="en" manifest="vnet.manifest">
+	<head>
+		<meta http-equiv="content-type" content="text/html;charset=utf-8">
+		<meta name="keywords" content="iPad,VisitorNet,Bookmarklet,maker,generator,javascript,paste,login,pastelet,Boeing,Email/Login">
+		<meta name="robots" content="index,nofollow">
+		<meta name="viewport" content="width=device-width,user-scalable=no">
+		<meta name="format-detection" content="telephone=no">
+		<link rel="apple-touch-icon" href="img/pastelet-icon.png">
+		<link rel="canonical" href="http://mobilemind.net/vnet">
+		<style type="text/css">
+			body {
+				margin: 0;
+				padding: 0;
+				width: 100%;
+				background-color: #003dbd;
+				font-family: Helvetica, sans-serif;
+				font-size: 17px;
+				-webkit-text-size-adjust: none
+			}
+			#pg {
+				margin: 0;
+				padding-bottom: 15px;
+				background-color: #003dbd;
+				border: 1px solid #DE7008
+			}
+			h1 {
+				font-size:17px;
+				color: #FFFAFA;
+				margin: 14px 9px 6px 20px;
+				padding: 0
+			}
+			p {
+				margin: 0;
+				font-weight: normal;
+				padding:7px
+			}
+			form {
+				border: hidden;
+				margin: 0;
+				font-weight: normal;
+				padding: 7px
+			}
+			div.grp {
+				margin: 0 10px;
+				padding: 0;
+				width: 92%;
+				background-color: #e0e4eb;
+				border: 1px solid #d9d9d9;
+				font-size: 15px;
+				-webkit-border-radius: 8px;
+				-moz-border-radius: 8px
+			}
+			div.fig {
+				margin: 0;
+				padding: 4px 10px
+			}
+			.btn {
+				height: 40px;
+				width: 200px;
+				font: larger bolder;
+				color: #FFF;
+				background-color: #00349f;
+				border: 3px solid;
+				border-color: #666 #000 #000 #666;
+				-webkit-appearance:button;
+				-webkit-border-radius: 6px;
+				-moz-border-radius: 6px
+			}
+			.vers {
+				margin: 2px 2px;
+				font-size: x-small;
+				width: 92%;
+				text-align: right
+			}
+		</style>
+		<!-- version 1.0.0; 2011/08/05 23:50 Tom King;
+		
+			VNet a Pastelet to simplify use of VisitorNet
+			URL first displays as http://mobilemind.net/vnetroll?javascript:var%20s='…
+			Copyright (c) 2011 Tom King. All rights reserved.
+		-->
+			
+		<!-- code w/onLoad handler + function to create bookmarklet string -->
+		<script type="text/javascript">
+			// listener to dynamically position page for initial or return-trip 
+			window.addEventListener('load',
+				function() {
+					var q = location.search, p = '', skp;
+					if ('' != q) {
+							// reload form UI from query string
+							try {
+								p = decodeURIComponent(q.match(/^\?javascript:var( |%20)s=('|%27)(.*?)('|%27);/)[3]);
+								document.title = 'VNet ' + p.replace(/@.*/, "…");
+								document.getElementById('pStr').value = p;
+								// put a more human-readable, but compatible, version of bookmarklet in textarea
+								document.getElementById('bmrk').textContent = q.substring(1).replace(/\%27/g,"'");
+								// if not iPhone/iPad unhide 'Pastelet as link' and set anchor tag
+								if (!(-1 != navigator.userAgent.indexOf('Safari') && -1 != navigator.userAgent.indexOf('Mobile'))) {
+									var pal = document.getElementById('pal'), pl = document.getElementById('pl');
+									if (null != pal && null != pl) {
+										pal.setAttribute("style", "display:inline;padding:7px;height:auto");
+										pl.setAttribute('href', q.substring(1));			
+										pl.setAttribute('title', document.title);
+										pl.innerHTML = document.title;
+									}
+								}
+					 			// unhide remaining steps
+								window.scrollTo(0,78+document.getElementById('pltMkr').scrollHeight)
+							}
+							catch (e) {
+								alert("Unable to decode pastelet.\r\nForm will be reset.");
+								location.href=location.href.substring(0,location.href.indexOf('?'));
+								return
+							}
 					}
-		 			// unhide remaining steps
-					window.scrollTo(0,78+document.getElementById('pltMkr').scrollHeight)
+					// hide address bar
+					else window.scrollTo(0,1);
 				}
-				catch (e) {
-					alert("Unable to decode pastelet.\r\nForm will be reset.");
-					location.href=location.href.substring(0,location.href.indexOf('?'));
-					return
+			,true);
+			// reload page with new bookmarklet appended
+			function loadpg(p) {
+				if ('' != p) {
+				  document.getElementById('bmrk').textContent = p;
+				  location.href = location.protocol + '//' + location.host + location.port + location.pathname + '?' + p
 				}
-		}
-		// hide address bar
-		else window.scrollTo(0,1);
-	}
-,true);
-// reload page with new bookmarklet appended
-function loadpg(p) {
-	if ('' != p) {
-	  document.getElementById('bmrk').textContent = p;
-	  location.href = location.protocol + '//' + location.host + location.port + location.pathname + '?' + p
-	}
-}
+			}
+			
+			// actually creates bookmarklet given 's'=user string // EMAIL or LOGIN
+			
+			//	VNet a Pastelet to simplify use of VisitorNet
+			//	URL first displays as http://mobilemind.net/vnetroll?javascript:var%20s='…
+			//	Copyright (c) 2011 Tom King. All rights reserved
+			//
+			// Comments- Generated bookmarklet is carefully constructed for current version of VisitorNet
+			// *	The 'paste string' variable ('s') is defined first to make it more visible and ease editing the bookmark.
+			// *	Bookmarklet code is optimized for size (ie, string length of all the code), given goal above.
+			// * void(0) is included for cross-browser compatibility, a non-null return value causes some browsers to navigate
+			//
+			
+			function pastelet(u) {
+				return '' == u ? u : "javascript:var%20s='" + encodeURIComponent(u) + "';document.getElementsByName('uid')%5B0%5D.value=s;document.getElementsByName('agreeToTerms')%5B0%5D.checked=true;document.getElementById('pwd').focus();void(0)"
+			}
+		</script>
+		<title>VNet - Quicker Login to VisitorNet</title>
+	</head>
 
-// actually creates bookmarklet given 's'=user string // EMAIL or LOGIN
-
-//	VNet a Pastelet to simplify use of VisitorNet
-//	URL first displays as http://mobilemind.net/vnetroll?javascript:var%20s='…
-//	Copyright (c) 2011 Tom King. All rights reserved
-//
-// Comments- Generated bookmarklet is carefully constructed for current version of VisitorNet
-// *	The 'paste string' variable ('s') is defined first to make it more visible and ease editing the bookmark.
-// *	Bookmarklet code is optimized for size (ie, string length of all the code), given goal above.
-// * void(0) is included for cross-browser compatibility, a non-null return value causes some browsers to navigate
-//
-
-function pastelet(u) {
-	return '' == u ? u : "javascript:var%20s='" + encodeURIComponent(u) + "';document.getElementsByName('uid')%5B0%5D.value=s;document.getElementsByName('agreeToTerms')%5B0%5D.checked=true;document.getElementById('pwd').focus();void(0)"
-}
-</script>
-<title>VNet - Quicker Login to VisitorNet</title>
-</head>
-
-<body>
-<div id="pg">
-<script type="text/javascript">;</script>
-<noscript>Javascript must be enabled for this app.</noscript>
-<h1>VNet Bookmark Setup</h1>
-<div class="grp">
-	<p>These steps add a <i>Pastelet</i> bookmark to Mobile Safari that is optimized to paste text into the user field, check the &ldquo;Agree to Terms&rdquo; and put the input focus on the password field.</p>
-</div>
-
-<h1>Step 1: Enter the text</h1>
-<div class="grp">
-	<p>Enter the Email/Login to paste. Then tap Make Vnet Pastelet to reload this page for Step 2.</p>
-	<form id="pltMkr" onSubmit="loadpg(pastelet(document.getElementById('pStr').value)); return false">
-		<label for="pStr">Email/Login to Paste
-				<input type="email" id=pStr size="25" maxlength="255" style="font-size:large; -webkit-appearance:textfield" placeholder="email@abc.com or userID" autocorrect="off" autocapitalize="off">
-		</label>
-		<br><br>       
-		<input type="submit" id="mkPltBtn" value="Make Pastelet" class="btn" style="margin:2px 0px 4px 33px">
-		<br><br>
-		<label id=yp for="bmrk" style="vertical-align:top">Your Vnet Pastelet&nbsp;
-			<textarea id="bmrk" cols="41" rows="4"  style="vertical-align:top" wrap="soft">No Pastelet yet. View Step 1 for instructions.</textarea>
-		</label>
-	</form>
-	<p id=pal style="display:none">Pastelet as link: <a id=pl href="" title="Pastelet">Pastelet</a><br><br></p>
-</div>
-
-<h1>Step 2: Add a Bookmark</h1>
-<div class="grp">
-	<p>Tap the add button on the toolbar. Then select <b>Add Bookmark</b></p>
-	<div class="fig"><img class="fig" src="img/bkadd.png" alt="add bookmark" width="276" height="37"></div>
-	<p>Take note of the name (or edit it), and then tap <b>Save</b>.</p>
-	<div class="fig"><img src="img/bksave.png" alt="save bookmark" width="276" height="142"></div>
-</div>
-
-<h1>Step 3: Edit the Bookmark</h1>
-<div class="grp">
-	<p>Now edit the bookmark to turn it into a Pastelet. Tap the Bookmarks button in the toolbar.</p>
-	<div class="fig"><img src="img/bkopen.png" alt="open bookmarks" width="276" height="37"></div>
-	<p>Navigate to the bookmark you just saved. <i>Do not select the bookmark.</i></p>
-	<p>Tap <b>Edit</b> to modify the list and <i>then</i> tap on the bookmark itself.</p>
-	<p>In the Edit Bookmark panel, tap in the field that begins with &ldquo;<code><b>http:</b></code>&rdquo;. 
-	You need to edit the start of the text, so tap and drag all the way to the left.</p>
-	<div class="fig"><img src="img/bkedit1.png" alt="edit bookmark start" width="276" height="135"></div>
-	<p>Place the edit point between the &ldquo;<code><b>?</b></code>&rdquo; and the &ldquo;<code><b>j</b></code>&rdquo;. 
-	Then tap delete until the edit point is at the start of the line. When done, the bookmark should look like:</p>
-	<div class="fig"><img src="img/bkedit2.png" alt="edit bookmark finish" width="276" height="84"></div>
-</div>
-
-<h1>Step 4: Use the Pastelet</h1>
-<div class="grp">
-	<p>When visiting a web page &ldquo;paste&rdquo; the Email/Login by selecting the Pastelet bookmark. Just tap the bookmarks icon.</p>
-	<div class="fig"><img src="img/bkopen.png" alt="open bookmarks" width="276" height="37"></div>
-	<p>Then tap on the Pastelet bookmark to &ldquo;paste&rdquo; its text into a form field.</p>
-</div>
-
-<h1 id="don8">Notes &amp; Issues</h1>
-<div class="grp">
-	<p>Note: The Vnet Pastelet is experimental project done during off-hours. Let me know if you find something to fix.</p>
-	<p>Feedback is welcome. Contact me via <a href="mailto:mobilemind%40pobox%2ecom">mobilemind&#64;pobox&#46;com</a>.</p>
-	<span style="font-size:small;margin:0 6px 4px"><a href="#pg">top</a></span>
-</div>
-
-<div class="vers">v1.0.0</div>
-</div>
-</body>
+	<body>
+		<div id="pg">
+			<script type="text/javascript">;</script>
+			<noscript>Javascript must be enabled for this app.</noscript>
+			<h1>VNet Bookmark Setup</h1>
+			<div class="grp">
+				<p>These four steps add a <i>Pastelet</i> bookmark to Mobile Safari that will paste in the user ID, check the &ldquo;Agree to Terms&rdquo; box and set input focus on the password field.</p>
+			</div>
+			
+			<h1>Step 1: Enter the text</h1>
+			<div class="grp">
+				<p>Enter the User ID Email/Login to paste. Then tap Make Vnet Pastelet to reload this page for Step 2.</p>
+				<form id="pltMkr" onSubmit="loadpg(pastelet(document.getElementById('pStr').value)); return false">
+					<label for="pStr">Email/Login to Paste
+						<input type="email" id="pStr" size="25" maxlength="255" style="font-size:large; -webkit-appearance:textfield" placeholder="email@abc.com or userID" autocorrect="off" autocapitalize="off">
+					</label>
+					<br><br>       
+					<input type="submit" id="mkPltBtn" value="Make VNet Pastelet" class="btn" style="margin:2px 0px 4px 33px">
+					<br><br>
+					<label id="yp" for="bmrk" style="vertical-align:top">Your VNet Pastelet&nbsp;
+						<textarea id="bmrk" cols="41" rows="4"  style="vertical-align:top" wrap="soft">No Pastelet yet. View Step 1 for instructions.</textarea>
+					</label>
+				</form>
+				<p id="pal" style="display:none">Pastelet as link: <a id="pl" href="" title="Pastelet">Pastelet</a><br><br></p>
+			</div>
+			
+			<h1>Step 2: Add a Bookmark</h1>
+			<div class="grp">
+				<p>Tap the add button on the toolbar. Then select <b>Add Bookmark</b></p>
+				<div class="fig"><img class="fig" src="img/bkadd.png" alt="add bookmark" width="276" height="37"></div>
+				<p>Take note of the name (or edit it), and then tap <b>Save</b>.</p>
+				<div class="fig"><img src="img/bksave.png" alt="save bookmark" width="276" height="142"></div>
+			</div>
+			
+			<h1>Step 3: Edit the Bookmark</h1>
+			<div class="grp">
+				<p>Now edit the bookmark to turn it into a Pastelet. Tap the Bookmarks button in the toolbar.</p>
+				<div class="fig"><img src="img/bkopen.png" alt="open bookmarks" width="276" height="37"></div>
+				<p>Navigate to the bookmark you just saved. <i>Do not select the bookmark.</i></p>
+				<p>Tap <b>Edit</b> to modify the list and <i>then</i> tap on the bookmark itself.</p>
+				<p>In the Edit Bookmark panel, tap in the field that begins with &ldquo;<code><b>http:</b></code>&rdquo;. You need to edit the start of the text, so tap and drag all the way to the left.</p>
+				<div class="fig"><img src="img/bkedit1.png" alt="edit bookmark start" width="276" height="135"></div>
+				<p>Place the edit point between the &ldquo;<code><b>?</b></code>&rdquo; and the &ldquo;<code><b>j</b></code>&rdquo;. Then tap delete until the edit point is at the start of the line. When done, the bookmark should look like:</p>
+				<div class="fig"><img src="img/bkedit2.png" alt="edit bookmark finish" width="276" height="84"></div>
+			</div>
+			
+			<h1>Step 4: Use the Pastelet</h1>
+			<div class="grp">
+				<p>When visiting a web page &ldquo;paste&rdquo; the Email/Login by selecting the Pastelet bookmark. Just tap the bookmarks icon.</p>
+				<div class="fig"><img src="img/bkopen.png" alt="open bookmarks" width="276" height="37"></div>
+				<p>Then tap on the Pastelet bookmark to &ldquo;paste&rdquo; its text into a form field.</p>
+			</div>
+			
+			<h1>Notes &amp; Issues</h1>
+			<div class="grp">
+				<p>Note: The Vnet Pastelet is experimental project done during off-hours. Let me know if you find something to fix.</p>
+				<p>Feedback is welcome. Contact me via <a href="mailto:mobilemind%40pobox%2ecom">mobilemind&#64;pobox&#46;com</a>.</p>
+			</div>
+			
+			<div class="vers">v1.0.0</div>
+		</div>
+	</body>
 </html>
