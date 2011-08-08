@@ -41,6 +41,10 @@
 				font-weight: normal;
 				padding: 7px
 			}
+			input[type="text"] {
+				font-size:large;
+				-webkit-appearance:textfield
+			}
 			div.grp {
 				margin: 0 10px;
 				padding: 0;
@@ -58,6 +62,7 @@
 			.btn {
 				height: 40px;
 				width: 200px;
+				margin:2px 0px 4px 33px;
 				font: larger bolder;
 				color: #FFF;
 				background-color: #00349f;
@@ -66,6 +71,9 @@
 				-webkit-appearance:button;
 				-webkit-border-radius: 6px;
 				-moz-border-radius: 6px
+			}
+			.vp {
+				vertical-align:top
 			}
 			.vers {
 				margin: 2px 2px;
@@ -159,13 +167,13 @@
 				<p>Enter the User ID Email/Login to paste. Then tap Make Vnet Pastelet to reload this page for Step 2.</p>
 				<form id="pltMkr" onSubmit="loadpg(pastelet(document.getElementById('pStr').value)); return false">
 					<label for="pStr">Email/Login to Paste
-						<input type="email" id="pStr" size="25" maxlength="255" style="font-size:large; -webkit-appearance:textfield" placeholder="email@abc.com or userID" autocorrect="off" autocapitalize="off">
+						<input type="email" id="pStr" size="25" maxlength="255" placeholder="email@abc.com or userID" autocorrect="off" autocapitalize="off">
 					</label>
 					<br><br>       
-					<input type="submit" id="mkPltBtn" value="Make VNet Pastelet" class="btn" style="margin:2px 0px 4px 33px">
+					<input type="submit" id="mkPltBtn" value="Make VNet Pastelet" class="btn">
 					<br><br>
-					<label id="yp" for="bmrk" style="vertical-align:top">Your VNet Pastelet&nbsp;
-						<textarea id="bmrk" cols="41" rows="4"  style="vertical-align:top" wrap="soft">No Pastelet yet. View Step 1 for instructions.</textarea>
+					<label id="yp" for="bmrk" class="vp">Your VNet Pastelet&nbsp;
+						<textarea id="bmrk" cols="41" rows="4" class="vp" wrap="soft">No Pastelet yet. View Step 1 for instructions.</textarea>
 					</label>
 				</form>
 				<p id="pal" style="display:none">Pastelet as link: <a id="pl" href="" title="Pastelet">Pastelet</a><br><br></p>
@@ -204,7 +212,7 @@
 				<p>Feedback is welcome. Contact me via <a href="mailto:mobilemind%40pobox%2ecom">mobilemind&#64;pobox&#46;com</a>.</p>
 			</div>
 			
-			<div class="vers">v1.0.0</div>
+			<div class="vers">v1.0.1</div>
 		</div>
 	</body>
 </html>
