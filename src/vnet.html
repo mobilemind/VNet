@@ -21,8 +21,7 @@
 			#pg {
 				margin: 0;
 				padding-bottom: 15px;
-				background-color: #003dbd;
-				border: 1px solid #DE7008
+				background-color: #003dbd
 			}
 			h1 {
 				font-size:17px;
@@ -159,7 +158,7 @@
 			<noscript>Javascript must be enabled for this app.</noscript>
 			<h1>VNet Bookmark Setup</h1>
 			<div class="grp">
-				<p>These four steps add a <i>Pastelet</i> bookmark to Mobile Safari that will paste in the user ID, check the &ldquo;Agree to Terms&rdquo; box and set input focus on the password field.</p>
+				<p>These four steps add a <i>Pastelet</i> bookmark to Mobile Safari that will paste in the user ID, check the &ldquo;Agree to Terms&rdquo; box and set input focus on the password field. If creating multiple pastelets, press reset in-between.</p>
 			</div>
 			
 			<h1>Step 1: Enter the text</h1>
@@ -167,8 +166,8 @@
 				<p>Enter the User ID Email/Login to paste. Then tap Make Vnet Pastelet to reload this page for Step 2.</p>
 				<form id="pltMkr" onSubmit="loadpg(pastelet(document.getElementById('pStr').value)); return false">
 					<label for="pStr">Email/Login to Paste
-						<input type="email" id="pStr" size="25" maxlength="255" placeholder="email@abc.com or userID" autocorrect="off" autocapitalize="off">
-					</label>
+						<input type="email" id="pStr" size="25" maxlength="255" placeholder="email@abc.com or userID" autocorrect="off" autocapitalize="off" autofocus>
+					</label>&nbsp;&nbsp;<input type="button" id="reset" value="Reset" onclick="location.href=location.protocol+'//'+location.host+location.port+location.pathname">
 					<br><br>       
 					<input type="submit" id="mkPltBtn" value="Make VNet Pastelet" class="btn">
 					<br><br>
@@ -212,7 +211,7 @@
 				<p>Feedback is welcome. Contact me via <a href="mailto:mobilemind%40pobox%2ecom">mobilemind&#64;pobox&#46;com</a>.</p>
 			</div>
 			
-			<div class="vers">v1.0.1</div>
+			<div class="vers">v1.0.2</div>
 		</div>
 	</body>
 </html>
