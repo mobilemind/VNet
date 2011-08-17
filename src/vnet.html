@@ -40,7 +40,7 @@
 				font-weight: normal;
 				padding: 7px
 			}
-			input[type="text"] {
+			input[type="email"] {
 				font-size:large;
 				-webkit-appearance:textfield
 			}
@@ -81,10 +81,10 @@
 				text-align: right
 			}
 		</style>
-		<!-- version 1.0.0; 2011/08/05 23:50 Tom King;
+		<!-- version 1.0.4; 2011/08/16 17:25 Tom King;
 		
 			VNet a Pastelet to simplify use of VisitorNet
-			URL first displays as http://mobilemind.net/vnetroll?javascript:var%20s='…
+			URL first displays as http://mobilemind.net/vnetroll?javascript:var%20p='…
 			Copyright (c) 2011 Tom King. All rights reserved.
 		-->
 			
@@ -97,7 +97,7 @@
 					if ('' != q) {
 							// reload form UI from query string
 							try {
-								p = decodeURIComponent(q.match(/^\?javascript:var( |%20)s=('|%27)(.*?)('|%27);/)[3]);
+								p = decodeURIComponent(q.match(/^\?javascript:var( |%20)p=('|%27)(.*?)('|%27),s/)[3]);
 								document.title = 'VNet ' + p.replace(/@.*/, "…");
 								document.getElementById('pStr').value = p;
 								// put a more human-readable, but compatible, version of bookmarklet in textarea
@@ -146,7 +146,7 @@
 			//
 			
 			function pastelet(u) {
-				return '' == u ? u : "javascript:var%20s='" + encodeURIComponent(u) + "';document.getElementsByName('uid')%5B0%5D.value=s;document.getElementsByName('agreeToTerms')%5B0%5D.checked=true;document.getElementById('pwd').focus();void(0)"
+				return '' == u ? u : "javascript:var%20p='',s='" + encodeURIComponent(u) + "';document.getElementsByName('uid')%5B0%5D.value=s;document.getElementById('pwd').value=p,document.getElementsByName('agreeToTerms')%5B0%5D.checked=true;if(''!=p)document.forms%5B0%5D.submit();else%20document.getElementById('pwd').focus();void(0)"
 			}
 		</script>
 		<title>VNet - Quicker Login to VisitorNet</title>
@@ -158,7 +158,7 @@
 			<noscript>Javascript must be enabled for this app.</noscript>
 			<h1>VNet Bookmark Setup</h1>
 			<div class="grp">
-				<p>These four steps add a <i>Pastelet</i> bookmark to Mobile Safari that will paste in the user ID, check the &ldquo;Agree to Terms&rdquo; box and set input focus on the password field. If creating multiple pastelets, press reset in-between.</p>
+				<p>These four steps add a <i>Pastelet</i> bookmark to Mobile Safari that will paste in the User ID, check the &ldquo;Agree to Terms&rdquo; box and set input focus on the password field. If creating multiple pastelets, press reset in-between.</p>
 			</div>
 			
 			<h1>Step 1: Enter the text</h1>
@@ -211,7 +211,7 @@
 				<p>Feedback is welcome. Contact me via <a href="mailto:mobilemind%40pobox%2ecom">mobilemind&#64;pobox&#46;com</a>.</p>
 			</div>
 			
-			<div class="vers">v1.0.2</div>
+			<div class="vers">v1.0.4</div>
 		</div>
 	</body>
 </html>
