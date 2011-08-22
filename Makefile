@@ -15,10 +15,10 @@ build:
 	@perl -p -i -e "s/^(img\/.*)/iphone\/\\1/g;" ./vnet.manifest
 	@echo "   Compressing HTML file…"
 	@java -jar lib/htmlcompressor-1.4.jar --type html --charset utf-8 --remove-quotes --remove-intertag-spaces --compress-js --compress-css -o ./vnet ./vnet.html
-	@rm -f ./vnet.html
 	@echo "   Applying gzip…"
-	@gzip vnet
-	@mv -f vnet.gz vnet
+	@gzip ./vnet
+	@mv -f ./vnet.gz ./vnet
+	@rm -f ./vnet.html
 	@echo "Build complete. See ./vnet ./vnet.manifest"
 
 clean:	
