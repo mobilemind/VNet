@@ -8,6 +8,7 @@
 		<meta name="format-detection" content="telephone=no">
 		<link rel="apple-touch-icon" href="img/pastelet-icon.png">
 		<link rel="canonical" href="http://mmind.me/vnet">
+		<title>VNet:Quick Login to VisitorNet</title>
 		<style type="text/css">
 			body {
 				margin: 0;
@@ -105,7 +106,7 @@
 				text-align: right
 			}
 		</style>
-		<!-- version 1.0.10; 2011/08/23 23:39 Tom King;
+		<!-- version 1.0.11; 2011/09/01 20:49 Tom King;
 		
 			VNet a Pastelet to simplify use of VisitorNet
 			URL first displays as http://mmind.me/vnet?javascript:var%20p='…
@@ -173,30 +174,28 @@
 				return '' == u ? u : "javascript:p='';document.getElementsByName('uid')%5B0%5D.value='" + encodeURIComponent(u) + "';document.getElementById('pwd').value=p;document.getElementsByName('agreeToTerms')%5B0%5D.checked=1;''!=p%3Fdocument.forms%5B0%5D.submit():document.getElementById('pwd').focus();void(0)"
 			}
 		</script>
-		<title>VNet - Quicker Login to VisitorNet</title>
 	</head>
 
 	<body>
 		<div id="pg">
 			<script type="text/javascript">;</script>
 			<noscript>Javascript must be enabled for this app.</noscript>
-			<h1>VNet Bookmark Setup</h1>
+			<h1>VNet Bookmark Pastelet Setup</h1>
 			<div class="grp">
-				<p>These four steps add a <i><a href="http://mmind.me/" title="Mmind:Pastelets &amp; more">Pastelet</a></i> bookmark to Mobile Safari that will paste in the User ID, check the &ldquo;Agree to Terms&rdquo; box and set input focus on the password field. If creating multiple pastelets, press reset in-between.</p>
-				<p>You can easily <a href="mailto:?subject=VisitorNet%20Utility&amp;body=Try%20the%20VisitorNet%20Utility%20on%20your%20device-%20%3Chttp%3A%2F%2Fmmind.me%2Fvnet%3E%0A" title="open an email with subject &amp; link provided">share this page by email</a> too.</p>
+				<p>These four steps add a <i><a href="http://mmind.me/" title="Mmind:Pastelets &amp; more">Pastelet</a></i> bookmark to Mobile Safari that will paste in the Username, check the &ldquo;Agree to Terms&rdquo; box and set input focus on the password field. When creating multiple pastelets, press reset in-between doing each one.</p>
 			</div>
 			
 			<h1>Step 1: Enter the text</h1>
 			<div class="grp">
-				<p>Enter the User ID Email/Login to paste. Then tap Make Vnet Pastelet to reload this page for Step 2.</p>
+				<p>Enter the Username to paste. Then tap Make Vnet Pastelet to reload this page for Step 2.</p>
 				<form id="pltMkr" onSubmit="loadpg(pastelet(document.getElementById('pStr').value)); return false">
-					<label for="pStr">Email/Login to Paste
+					<label for="pStr">Username:&nbsp;
 						<input type="email" id="pStr" class="pStr" name="uid" size="25" maxlength="255" placeholder="email@company.com" autocorrect="off" autocapitalize="off" autofocus>
 					</label>&nbsp;&nbsp;<input type="button" id="reset" value="Reset" onclick="location.href=location.protocol+'//'+location.host+location.port+location.pathname">
 					<br><br>       
 					<input type="submit" id="mkPltBtn" value="Make VNet Pastelet" class="btn">
 					<br><br>
-					<label id="yp" for="bmrk" class="vp">Your VNet Pastelet&nbsp;
+					<label id="yp" for="bmrk" class="vp">Your VNet Pastelet:&nbsp;
 						<textarea id="bmrk" cols="41" rows="4" class="vp" wrap="soft">No Pastelet yet. View Step 1 for instructions.</textarea>
 					</label>
 				</form>
@@ -236,7 +235,7 @@
 				<p>Feedback is welcome. Contact me via <a href="mailto:mobilemind%40pobox%2ecom">mobilemind&#64;pobox&#46;com</a>.</p>
 			</div>
 			
-			<div class="vers">v1.0.10</div>
+			<div class="vers">v1.0.11</div>
 		</div>
 	</body>
 </html>
