@@ -23,7 +23,7 @@ build:
 	@gzip ./vnet
 	@mv -f ./vnet.gz ./vnet
 # comment next line to keep uncompressed HTML
-#	@rm -f ./vnet.html
+	@rm -f ./vnet.html
 ##
 	@echo "Build complete. See ./vnet ./vnet.manifest"
 
