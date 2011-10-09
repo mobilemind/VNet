@@ -2,13 +2,13 @@
 <html lang="en" manifest="vnet.manifest">
 	<head>
 		<meta http-equiv="content-type" content="text/html;charset=utf-8">
-		<meta name="keywords" content="iPad,VisitorNet,VNet,bookmark,Bookmarklet,maker,generator,javascript,paste,login,pastelet,Boeing,username,login">
+		<meta name="keywords" content="iPad,VisitorNet,VNet+P,bookmark,Bookmarklet,maker,generator,javascript,paste,login,pastelet,Boeing,username,password,login">
 		<meta name="robots" content="index,nofollow">
 		<meta name="viewport" content="width=device-width,user-scalable=no">
 		<meta name="format-detection" content="telephone=no">
 		<link rel="apple-touch-icon" href="img/pastelet-icon.png">
-		<link rel="canonical" href="http://mmind.me/vnet">
-		<title>VNet:Quick Login to VisitorNet</title>
+		<link rel="canonical" href="http://mmind.me/vnetp">
+		<title>VNet+P:Quicker VisitorNet Login</title>
 		<style type="text/css">
 			body {
 				margin: 0;
@@ -108,7 +108,7 @@
 		</style>
 		<!-- v@VERSION@; 2011/10/08 23:24 Tom King; build date: @BUILDDATE@
 		
-			VNet a Pastelet to simplify use of VisitorNet
+			VNet+P a Pastelet to simplify use of VisitorNet
 			URL first displays as http://mmind.me/vnet?javascript:var%20p='…
 			Copyright (c) 2011 Tom King. All rights reserved.
 		-->
@@ -118,13 +118,17 @@
 			// listener to dynamically position page for initial or return-trip 
 			window.addEventListener('load',
 				function() {
-					var q = location.search, p = '';
+					var q = location.search, p = '', w = '';
 					if ('' !== q) {
 							// reload form UI from query string
 							try {
-								p = decodeURIComponent(q.match(/^\?javascript:p=('|%27).*?('|%27);.*?value=('|%27)(.*?)('|%27)/)[4]);
-								document.title = 'login ' + p.replace(/\W.*/, "…");
-								document.getElementById('pStr').value = p;
+								p = decodeURIComponent(q.match(/^\?javascript:p=('|%27)(.*?)('|%27);.*?value=('|%27)(.*?)('|%27)/)[5]);
+								w = decodeURIComponent(q.match(/^\?javascript:p=('|%27)(.*?)('|%27);.*?value=('|%27)(.*?)('|%27)/)[2]);
+								if (p !== '')	{
+									document.title = 'login ' + p.replace(/\W.*/, "…");
+									document.getElementById('pStr').value = p;
+									if (w !== '') document.getElementById('pwd').value = w;
+								}
 								// put a more human-readable, but compatible, version of bookmarklet in textarea
 								document.getElementById('bmrk').textContent = q.substring(1).replace(/\%27/g,"'");
 								// if not iPhone/iPad unhide 'Pastelet as link' and set anchor tag
@@ -170,8 +174,8 @@
 			// * void(0) is for cross-browser compatibility, a non-null return value causes some browsers to navigate
 			//
 			
-			function pastelet(u) {
-				return '' === u ? u : "javascript:p='';document.getElementsByName('uid')%5B0%5D.value='" + encodeURIComponent(u) + "';document.getElementById('pwd').value=p;document.getElementsByName('agreeToTerms')%5B0%5D.checked=1;''!=p%3Fdocument.forms%5B0%5D.submit():document.getElementById('pwd').focus();void(0)";
+			function pastelet(u,p) {
+				return '' === u + p ? u : "javascript:p='" + encodeURIComponent(p) + "';document.getElementsByName('uid')%5B0%5D.value='" + encodeURIComponent(u) + "';document.getElementById('pwd').value=p;document.getElementsByName('agreeToTerms')%5B0%5D.checked=1;''!=p%3Fdocument.forms%5B0%5D.submit():document.getElementById('pwd').focus();void(0)";
 			}
 		</script>
 	</head>
@@ -180,22 +184,25 @@
 		<div id="pg">
 			<script type="text/javascript">;</script>
 			<noscript>Javascript must be enabled for this app.</noscript>
-			<h1>VNet Bookmark Pastelet Setup</h1>
+			<h1>VNet+P Bookmark Pastelet Setup</h1>
 			<div class="grp">
-				<p>These four steps add a <i><a href="http://mmind.me/" title="Mmind:Pastelets &amp; more">Pastelet</a></i> bookmark to Mobile Safari that will paste in the Username, check the &ldquo;Agree to Terms&rdquo; box and set input focus on the password field. When creating multiple pastelets, press reset in-between doing each one.</p>
+				<p>These four steps add a <i><a href="http://mmind.me/" title="Mmind:Pastelets &amp; more">Pastelet</a></i> bookmark to Mobile Safari that will paste in the Username, check the &ldquo;Agree to Terms&rdquo; box, complete the password field and login. When creating multiple pastelets, press reset in-between doing each one.</p>
 			</div>
 			
 			<h1>Step 1: Enter the text</h1>
 			<div class="grp">
-				<p>Enter the Username to paste. Then tap Make VNet Pastelet to reload this page for Step 2.</p>
-				<form id="pltMkr" onSubmit="loadpg(pastelet(document.getElementById('pStr').value)); return false">
+				<p>Enter the Username to paste and password. Then tap <b>Make VNet+P Pastelet</b> to reload this page for Step 2.</p>
+				<form id="pltMkr" onSubmit="loadpg(pastelet(document.getElementById('pStr').value,document.getElementById('pwd').value)); return false">
 					<label for="pStr">Username:&nbsp;
 						<input type="email" id="pStr" class="pStr" name="uid" size="25" maxlength="255" placeholder="email@company.com" autocorrect="off" autocapitalize="off" autofocus>
-					</label>&nbsp;&nbsp;<input type="button" id="reset" value="Reset" onclick="location.href=location.protocol+'//'+location.host+location.port+location.pathname">
+					</label>
+					<label for="pwd"><br>Password:&nbsp;
+						<input type="password" id="pwd" class="pStr" name="pwd" size="9" maxlength="255" autocorrect="off" autocapitalize="off">
+					</label>&nbsp;&nbsp;&nbsp;<input type="button" id="reset" value="Reset" onclick="location.href=location.protocol+'//'+location.host+location.port+location.pathname">
 					<br><br>       
 					<input type="submit" id="mkPltBtn" value="Make VNet Pastelet" class="btn">
 					<br><br>
-					<label id="yp" for="bmrk" class="vp">Your VNet Pastelet:&nbsp;
+					<label id="yp" for="bmrk" class="vp">Your VNet+P Pastelet:&nbsp;
 						<textarea id="bmrk" cols="41" rows="4" class="vp" wrap="soft">No Pastelet yet. View Step 1 for instructions.</textarea>
 					</label>
 				</form>
@@ -232,19 +239,19 @@
 				<div class="fig"><img src="img/bkdonei.png" alt="edit bookmarks" width="270" height="34"></div>
 			</div>
 			
-			<h1>Using the VNet Pastelet</h1>
+			<h1>Using the VNet+P Pastelet</h1>
 			<div class="grp">
 				<p>Open the VisitorNet sign-in page, then &ldquo;paste&rdquo; the VNet Username by selecting the Pastelet bookmark. Just tap the bookmarks icon.</p>
 				<div class="fig"><img src="img/bkopeni.png" alt="open bookmarks" width="264" height="160"></div>
-				<p>Then tap on the Pastelet bookmark to paste in the Username, check the &ldquo;Agree to Terms&rdquo; box and set input focus on the password field.</p>
+				<p>Then tap on the Pastelet bookmark to paste in the Username, check the &ldquo;Agree to Terms&rdquo; box, complete the password field, and login.</p>
 				<p><b>PRO TIP</b></p>
-				<p>Use the <a href="img/Always_Show_Bookmarks_bar.png">Settings app &mdash; Safari</a> settings to set <b>Always Show Bookmarks Bar</b> as <b>ON</b> and save (<i>or move</i>) the VNet login bookmark to the <b>Bookmarks Bar</b> folder. Then you can more quickly tap the link for your login.</p>
+				<p>Use the <a href="img/Always_Show_Bookmarks_bar.png">Settings app &mdash; Safari</a> settings to set <b>Always Show Bookmarks Bar</b> as <b>ON</b> and save (<i>or move</i>) the VNet+P login bookmark to the <b>Bookmarks Bar</b> folder. Then you can more quickly tap the link for your login.</p>
 				<div class="fig"><img src="img/bkbarlinki.png" alt="open bookmarks" width="244" height="108"></div>
 			</div>
 			
 			<h1>Notes &amp; Issues</h1>
 			<div class="grp">
-				<p>Note: The VNet Pastelet is experimental project done during off-hours. Let me know if you find something to fix.</p>
+				<p>Note: The VNet+P Pastelet is experimental project done during off-hours. Let me know if you find something to fix.</p>
 				<p>Feedback is welcome. Contact me via <a href="mailto:mobilemind%40pobox%2ecom">mobilemind&#64;pobox&#46;com</a>.</p>
 			</div>
 			
