@@ -27,25 +27,25 @@ build:
 	@echo '   Setting version and build date…'
 	@perl -p -i -e "s/v(\@VERSION\@)/v`head -1 src/VERSION`/g;" $(srcfiles)
 	@perl -p -i -e "s/(\@BUILDDATE\@)/`date`/g;" $(srcfiles)
-	@mv -f $(projname).manifest web
 ##
 	@echo '   Compressing HTML files…'
 	@$(htmlcompressor) $(compressoroptions) -o $(projname) $(projname).html
 	@$(htmlcompressor) $(compressoroptions) -o $(subprojname) $(subprojname).html
-##
-	@echo '   Applying gzip…'
 	@gzip -f $(projname)
+	@gzip -f $(subprojname)
+##
+	@echo '   Moving built files to web directory…'
+	@mv -f $(projname).manifest web
 	@mv -f $(projname).gz web/$(projname)
 	@mv -f $(projname).html web
-	@gzip -f $(subprojname)
 	@mv -f $(subprojname).gz web/$(subprojname)
 	@mv -f $(subprojname).html web
+	@chmod -R 744 web
 # comment next line to keep uncompressed HTML
 	@(cd web; rm -f $(htmlfiles);) 
 ##
 	@echo "   Removing $(projname) $(subprojname) $(srcfiles) and *.bak"
 	@rm -rf $(projname) $(subprojname) $(srcfiles) *.bak
-	@chmod -R 744 web
 ##
 	@echo "Build complete. See web/ directory for $(projname), $(subprojname), $(projname).manifest, and $(imgdir)/."
 
