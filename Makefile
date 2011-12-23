@@ -14,6 +14,7 @@ default: clean build
 build:
 ##
 	@echo '   Copying source files…'
+	@[[ -d web ]] || mkdir web
 	@mkdir web/$(imgdir)
 	@cp -R src/img web/$(imgdir)/img
 	@cp src/$(projname).* .
@@ -26,16 +27,16 @@ build:
 	@echo '   Setting version and build date…'
 	@perl -p -i -e "s/v(\@VERSION\@)/v`head -1 src/VERSION`/g;" $(srcfiles)
 	@perl -p -i -e "s/(\@BUILDDATE\@)/`date`/g;" $(srcfiles)
-	@mv $(projname).manifest web
+	@mv -f $(projname).manifest web
 ##
 	@echo '   Compressing HTML files…'
 	@$(htmlcompressor) $(compressoroptions) -o $(projname) $(projname).html
 	@$(htmlcompressor) $(compressoroptions) -o $(subprojname) $(subprojname).html
 ##
 	@echo '   Applying gzip…'
-	@gzip $(projname)
+	@gzip -f $(projname)
 	@mv -f $(projname).gz web/$(projname)
-	@gzip $(subprojname)
+	@gzip -f $(subprojname)
 	@mv -f $(subprojname).gz web/$(subprojname)
 # comment next line to keep uncompressed HTML
 	@rm -f $(htmlfiles)
