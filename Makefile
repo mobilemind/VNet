@@ -36,18 +36,18 @@ build:
 	@echo '   Applying gzip…'
 	@gzip -f $(projname)
 	@mv -f $(projname).gz web/$(projname)
+	@mv -f $(projname).html web
 	@gzip -f $(subprojname)
 	@mv -f $(subprojname).gz web/$(subprojname)
-	@mv $(htmlfiles) web
+	@mv -f $(subprojname).html web
 # comment next line to keep uncompressed HTML
-	@rm -f web/$(htmlfiles)
+	@(cd web; rm -f $(htmlfiles);) 
 ##
-	@echo "   Removing $(projname) $(subprojname) $(srcfiles) $(projname) and *.bak"
-	@rm -rf $(projname) $(subprojname) $(srcfiles) $(projname) *.bak
+	@echo "   Removing $(projname) $(subprojname) $(srcfiles) and *.bak"
+	@rm -rf $(projname) $(subprojname) $(srcfiles) *.bak
 	@chmod -R 744 web
 ##
 	@echo "Build complete. See web/ directory for $(projname), $(subprojname), $(projname).manifest, and $(imgdir)/."
 
 clean:
-	@echo "   Removing $(projname) $(subprojname) $(srcfiles) $(projname) *.bak and contents of web/"
-	@rm -rf $(projname) $(subprojname) $(srcfiles) $(projname) *.bak web/*
+	@echo '   Cleaning web folder and root…' && rm -rf web/* $(projname) $(subprojname) $(srcfiles) *.bak 
