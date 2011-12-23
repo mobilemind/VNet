@@ -44,7 +44,7 @@ build:
 ##
 	@echo "   Removing $(projname) $(subprojname) $(srcfiles) $(projname) and *.bak"
 	@rm -rf $(projname) $(subprojname) $(srcfiles) $(projname) *.bak
-	chmod -R 744 web
+	@chmod -R 744 web
 ##
 	@echo "Build complete. See web/ directory for $(projname), $(subprojname), $(projname).manifest, and $(imgdir)/."
 
