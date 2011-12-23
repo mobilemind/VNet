@@ -14,7 +14,7 @@ default: clean build
 build:
 ##
 	@echo '   Copying source files…'
-	@[[ -d web ]] || mkdir web
+	@[[ -d web ]] || mkdir -m 744 web
 	@mkdir web/$(imgdir)
 	@cp -R src/img web/$(imgdir)/img
 	@cp src/$(projname).* .
@@ -38,11 +38,13 @@ build:
 	@mv -f $(projname).gz web/$(projname)
 	@gzip -f $(subprojname)
 	@mv -f $(subprojname).gz web/$(subprojname)
+	@mv $(htmlfiles) web
 # comment next line to keep uncompressed HTML
-	@rm -f $(htmlfiles)
+	@rm -f web/$(htmlfiles)
 ##
 	@echo "   Removing $(projname) $(subprojname) $(srcfiles) $(projname) and *.bak"
 	@rm -rf $(projname) $(subprojname) $(srcfiles) $(projname) *.bak
+	chmod -R 744 web
 ##
 	@echo "Build complete. See web/ directory for $(projname), $(subprojname), $(projname).manifest, and $(imgdir)/."
 
