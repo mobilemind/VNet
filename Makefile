@@ -2,8 +2,8 @@
 
 projname = vnet
 subprojname = vnetp
-htmlfiles = vnet.html vnetp.html
-manifest = vnet.manifest
+htmlfiles = $(projname).html $(subprojname).html
+manifest = $(projname).manifest
 srcfiles = $(htmlfiles) $(manifest)
 imgdir = iphone
 htmlcompressor = java -jar lib/htmlcompressor-1.5.2.jar
