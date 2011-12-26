@@ -122,8 +122,8 @@
 					if ('' !== q) {
 							// reload form UI from query string
 							try {
-								p = decodeURIComponent(q.match(/^\?javascript:p=('|%27)(.*?)('|%27);.*?value=('|%27)(.*?)('|%27)/)[5]);
-								w = decodeURIComponent(q.match(/^\?javascript:p=('|%27)(.*?)('|%27);.*?value=('|%27)(.*?)('|%27)/)[2]);
+								p = decodeURIComponent(q.match(/^\?javascript:.*?value=('|%27)(.*?)('|%27).*?value=('|%27)(.*?)('|%27)/)[2]);
+								w = decodeURIComponent(q.match(/^\?javascript:.*?value=('|%27)(.*?)('|%27).*?value=('|%27)(.*?)('|%27)/)[5]);
 								if (p !== '')	{
 									document.title = 'login ' + p.replace(/\W.*/, "…");
 									document.getElementById('pStr').value = p;
@@ -131,6 +131,8 @@
 								}
 								// put a more human-readable, but compatible, version of bookmarklet in textarea
 								document.getElementById('bmrk').textContent = q.substring(1).replace(/\%27/g,"'");
+								document.getElementById('bmrk').textContent = document.getElementById('bmrk').textContent.replace(/\%5B/g,"[");
+								document.getElementById('bmrk').textContent = document.getElementById('bmrk').textContent.replace(/\%5D/g,"]");
 								// if not iPhone/iPad unhide 'Pastelet as link' and set anchor tag
 								if (!(-1 != navigator.userAgent.indexOf('Safari') && -1 != navigator.userAgent.indexOf('Mobile'))) {
 									var pal = document.getElementById('pal'), pl = document.getElementById('pl');
@@ -175,7 +177,7 @@
 			//
 			
 			function pastelet(u,p) {
-				return '' === u + p ? u : "javascript:p='" + encodeURIComponent(p) + "';document.getElementsByName('uid')%5B0%5D.value='" + encodeURIComponent(u) + "';document.getElementById('pwd').value=p;document.getElementsByName('agreeToTerms')%5B0%5D.checked=1;''!=p%3Fdocument.forms%5B0%5D.submit():document.getElementById('pwd').focus();void(0)";
+				return '' === u + p ? u : "javascript:document.getElementsByName('uid')%5B0%5D.value='" + encodeURIComponent(u) + "';document.getElementById('pwd').value='" + encodeURIComponent(p) + "';document.getElementsByName('agreeToTerms')%5B0%5D.checked=1;document.forms%5B0%5D.submit();void(0)";
 			}
 		</script>
 	</head>
@@ -259,3 +261,4 @@
 		</div>
 	</body>
 </html>
+
