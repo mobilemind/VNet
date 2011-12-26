@@ -37,7 +37,7 @@ mv2build: copy_src compress_html
 build: mv2build
 	@echo "   Removing temporary $(projname) $(subprojname) $(srcfiles) and *.bak"
 	@rm -rf $(projname) $(subprojname) $(srcfiles) *.bak
-	@echo "Build complete. See web/ directory for $(projname), $(subprojname), $(projname).manifest, and $(imgdir)/."
+	@echo "Build complete. See build/ directory for $(projname), $(subprojname), $(projname).manifest, and $(imgdir)/."
 
 clean:
 	@echo '   Cleaning build folder and root…' && rm -rf build/* $(projname) $(subprojname) $(srcfiles) *.bak 
