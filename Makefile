@@ -25,7 +25,7 @@ set_ver: copy_src
 compress_html: copy_src set_ver
 	@echo '   Compressing HTML files…'
 	@$(htmlcompressor) $(compressoroptions) --mask *.html -o build $(htmlfiles)
-	@gzip -f web/$(projname).html web/$(subprojname).html
+	@gzip -f build/$(projname).html build/$(subprojname).html
 
 mv2build: copy_src compress_html
 	@echo '   Moving built files to web directory…'
