@@ -69,11 +69,11 @@
 				text-decoration: none;
 				height: 40px;
 				width: 200px;
-				margin:2px 0px 4px 33px;				
+				margin:2px 0px 4px 33px;
 				font: 16px/100% Arial, Helvetica, sans-serif;
 				padding: .5em 2em .55em;
 				text-shadow: 0 1px 1px rgba(0,0,0,.3);
-				-webkit-border-radius: .5em; 
+				-webkit-border-radius: .5em;
 				-moz-border-radius: .5em;
 				border-radius: .5em;
 				-webkit-box-shadow: 0 1px 2px rgba(0,0,0,.2);
@@ -95,7 +95,7 @@
 				background: -webkit-gradient(linear, left top, left bottom, from(#0078a5), to(#00adee));
 				background: -moz-linear-gradient(top,  #0078a5,  #00adee);
 				filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#0078a5', endColorstr='#00adee');
-			}			
+			}
 			.vp {
 				vertical-align:top
 			}
@@ -107,15 +107,15 @@
 			}
 		</style>
 		<!-- v@VERSION@; 2011/10/08 23:24 Tom King; build date: @BUILDDATE@
-		
+
 			VNet+P a Pastelet to simplify use of VisitorNet
 			URL first displays as http://mmind.me/vnet?javascript:var%20p='…
 			Copyright (c) 2011 Tom King. All rights reserved.
 		-->
-			
+
 		<!-- code w/onLoad handler + function to create bookmarklet string -->
 		<script type="text/javascript">
-			// listener to dynamically position page for initial or return-trip 
+			// listener to dynamically position page for initial or return-trip
 			window.addEventListener('load',
 				function() {
 					var q = location.search, p = '', w = '';
@@ -138,7 +138,7 @@
 									var pal = document.getElementById('pal'), pl = document.getElementById('pl');
 									if (null !== pal && null !== pl) {
 										pal.setAttribute("style", "display:inline;padding:7px;height:auto");
-										pl.setAttribute('href', q.substring(1));			
+										pl.setAttribute('href', q.substring(1));
 										pl.setAttribute('title', document.title);
 										pl.innerHTML = document.title;
 									}
@@ -163,9 +163,9 @@
 				  location.href = location.protocol + '//' + location.host + location.port + location.pathname + '?' + p;
 				}
 			}
-			
+
 			// actually creates bookmarklet given 'u'=user string // EMAIL or LOGIN
-			
+
 			//	VNet a Pastelet to simplify use of VisitorNet
 			//	URL first displays as http://mmind.me/vnet?javascript:var%20p='…
 			//	Copyright (c) 2011 Tom King. All rights reserved
@@ -175,9 +175,9 @@
 			// *	Bookmarklet code is optimized for size (ie, string length of all the code), given goal above.
 			// * void(0) is for cross-browser compatibility, a non-null return value causes some browsers to navigate
 			//
-			
+
 			function pastelet(u,p) {
-				return '' === u + p ? u : "javascript:document.getElementsByName('uid')%5B0%5D.value='" + encodeURIComponent(u) + "';document.getElementById('pwd').value='" + encodeURIComponent(p) + "';document.getElementsByName('agreeToTerms')%5B0%5D.checked=1;document.forms%5B0%5D.submit();void(0)";
+				return '' === u + p ? u : "javascript:document.getElementsByName('uid')%5B0%5D.value='" + encodeURIComponent(u) + "';document.getElementById('pwd').value='" + encodeURIComponent(p) + "';document.getElementsByName('agreeToTerms')%5B0%5D.checked=1;document.forms%5B0%5D.submit();void('@VERSION@')";
 			}
 		</script>
 	</head>
@@ -190,7 +190,7 @@
 			<div class="grp">
 				<p>These four steps add a <i><a href="http://mmind.me/" title="Mmind:Pastelets &amp; more">Pastelet</a></i> bookmark to Mobile Safari that will paste in the Username, check the &ldquo;Agree to Terms&rdquo; box, complete the password field and login. When creating multiple pastelets, press reset in-between doing each one. If you're unsure about entering your password; don't do it, instead use the form for <a href="http://mmind.me/vnet" title="VNet Pastelet">VNet Pastelet</a> (no password).</p>
 			</div>
-			
+
 			<h1>Step 1: Enter the text</h1>
 			<div class="grp">
 				<p>Enter the Username to paste and password. Then tap <b>Make VNet+P Pastelet</b> to reload this page for Step 2.</p>
@@ -201,7 +201,7 @@
 					<label for="pwd"><br>Password:&nbsp;
 						<input type="password" id="pwd" class="pStr" name="pwd" size="9" maxlength="255" autocorrect="off" autocapitalize="off">
 					</label>&nbsp;&nbsp;&nbsp;<input type="button" id="reset" value="Reset" onclick="location.href=location.protocol+'//'+location.host+location.port+location.pathname">
-					<br><br>       
+					<br><br>
 					<input type="submit" id="mkPltBtn" value="Make VNet Pastelet" class="btn">
 					<br><br>
 					<label id="yp" for="bmrk" class="vp">Your VNet+P Pastelet:&nbsp;
@@ -210,7 +210,7 @@
 				</form>
 				<p id="pal" style="display:none">Pastelet as link: <a id="pl" href="" title="Pastelet">Pastelet</a><br><br></p>
 			</div>
-			
+
 			<h1>Step 2: Add a Bookmark</h1>
 			<div class="grp">
 				<p>Tap the add button on the toolbar. Then select <b>Add Bookmark</b></p>
@@ -218,7 +218,7 @@
 				<p>Take note of the name (or edit it), and then tap <b>Save</b>.</p>
 				<div class="fig"><img src="img/bksavei.png" alt="save bookmark" width="264" height="175"></div>
 			</div>
-			
+
 			<h1>Step 3: Edit the Bookmark</h1>
 			<div class="grp">
 				<p>Now edit the bookmark to turn it into a Pastelet. Tap the Bookmarks button in the toolbar.</p>
@@ -232,7 +232,7 @@
 				<p>Place the edit point between the &ldquo;<code><b>?</b></code>&rdquo; and the &ldquo;<code><b>j</b></code>&rdquo;. Then tap the delete key until the edit point is at the start of the line. When done, the bookmark should look like:</p>
 				<div class="fig"><img src="img/bkedit2i.png" alt="edit bookmark finish" width="272" height="80"></div>
 			</div>
-			
+
 			<h1>Step 4: Save the Bookmark</h1>
 			<div class="grp">
 				<p>Back-up a level in the edit pop-over by tapping the button to the left of &ldquo;Edit Bookmark&rdquo;.</p>
@@ -240,7 +240,7 @@
 				<p>Save the bookmark by tapping <b>Done</b>.</p>
 				<div class="fig"><img src="img/bkdonei.png" alt="edit bookmarks" width="270" height="34"></div>
 			</div>
-			
+
 			<h1>Using the VNet+P Pastelet</h1>
 			<div class="grp">
 				<p>Open the VisitorNet sign-in page, then &ldquo;paste&rdquo; the VNet Username by selecting the Pastelet bookmark. Just tap the bookmarks icon.</p>
@@ -250,15 +250,14 @@
 				<p>Use the <a href="img/Always_Show_Bookmarks_bar.png">Settings app &mdash; Safari</a> settings to set <b>Always Show Bookmarks Bar</b> as <b>ON</b> and save (<i>or move</i>) the VNet+P login bookmark to the <b>Bookmarks Bar</b> folder. Then you can more quickly tap the link for your login.</p>
 				<div class="fig"><img src="img/bkbarlinki.png" alt="open bookmarks" width="244" height="108"></div>
 			</div>
-			
+
 			<h1>Notes &amp; Issues</h1>
 			<div class="grp">
 				<p>Note: The VNet+P Pastelet is experimental project done during off-hours. Let me know if you find something to fix.</p>
 				<p>Feedback is welcome. Contact me via <a href="mailto:mobilemind%40pobox%2ecom">mobilemind&#64;pobox&#46;com</a>.</p>
 			</div>
-			
+
 			<div class="vers">v@VERSION@</div>
 		</div>
 	</body>
 </html>
-
