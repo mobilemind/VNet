@@ -57,8 +57,9 @@ Source code is available. The bookmark JavaScript was written to be as small as 
 
 Build Requirements & Notes
 ----------
-The make file requires the Java-based htmlcompressor and yuicompressor included in the lib folder. It also expects the bash shell, perl and gzip.
+The make file requires the Java-based htmlcompressor and yuicompressor included in the lib folder. It also expects the bash shell, perl, tidy, jsl and gzip.
+Required utilities are easily installed on Mac OS X with brew or on Windows with Cygwin.
 
 Use “make” to create the HTML page and manifest.
 
-Comment-out the annotated line in the Makefile to leave the vnet HTML file uncompressed with a .html extension (default is to gzip compress it and remove the file extension).  
+Comment-out the annotated line in the Makefile to leave the vnet HTML file uncompressed with a .html extension (default is to gzip compress it and remove the file extension).
