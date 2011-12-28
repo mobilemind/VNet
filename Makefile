@@ -19,8 +19,8 @@ copy_src:
 
 set_ver: copy_src
 	@echo '   Setting version and build date…'
-	@perl -p -i -e "s/v(\@VERSION\@)/v`head -1 src/VERSION`/g;" $(srcfiles)
-	@perl -p -i -e "s/(\@BUILDDATE\@)/`date`/g;" $(srcfiles)
+	@perl -p -i -e "s/\@VERSION\@/`head -1 src/VERSION`/g;" $(srcfiles)
+	@perl -p -i -e "s/\@BUILDDATE\@/`date`/g;" $(srcfiles)
 
 compress_html: copy_src set_ver
 	@echo '   Compressing HTML files…'
@@ -31,7 +31,7 @@ mv2build: copy_src compress_html
 	@echo '   Moving built files to web directory…'
 	@mv build/$(projname).html.gz build/$(projname)
 	@mv build/$(subprojname).html.gz build/$(subprojname)
-	@mv -f $(projname).manifest build
+	@(mv -f $(projname).manifest build; mv -f $(subprojname).manifest build )
 	@chmod -R 744 build
 
 build: mv2build
@@ -40,4 +40,4 @@ build: mv2build
 	@echo "Build complete. See build/ directory for $(projname), $(subprojname), $(projname).manifest, and $(imgdir)/."
 
 clean:
-	@echo '   Cleaning build folder and root…' && rm -rf build/* $(projname) $(subprojname) $(srcfiles) *.bak 
+	@echo '   Cleaning build folder and root…' && rm -rf build/* $(projname) $(subprojname) $(srcfiles) *.bak

@@ -1,6 +1,6 @@
 CACHE MANIFEST
-# VNet v@VERSION@, @BUILDDATE@,  Copyright (c) 2011 Tom King. All rights reserved.
-vnet
+# VNet+P v@VERSION@, @BUILDDATE@,  Copyright (c) 2011 Tom King. All rights reserved.
+vnetp
 img/bkaddi.png
 img/bkbacki.png
 img/bkbarlinki.png
