@@ -2,7 +2,7 @@ VNet
 ==========
 The "VNet" bookmarklet streamlines logging in to Roving Planet, “VisitorNet” sites that control access to WiFi networks. The bookmarklet will paste in the Username, check the “Agree to Terms” box and set input focus on the password field.
 
-The sister version "VNet+P" adds the capability to complete the password too. Gnerally not a good idea, unless it is a low stakes environment.
+The sister version "VNet+P" adds the capability to complete the password too. Generally not a good idea, unless it is a low stakes environment.
 
 Install
 ----------
