@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html lang="en" manifest="vnet.manifest">
+<html lang="en" manifest="vnetp.manifest">
 	<head>
 		<meta http-equiv="content-type" content="text/html;charset=utf-8">
 		<meta name="keywords" content="iPad,VisitorNet,VNet+P,bookmark,Bookmarklet,maker,generator,javascript,paste,login,pastelet,Boeing,username,password,login">
@@ -106,10 +106,10 @@
 				text-align: right
 			}
 		</style>
-		<!-- v@VERSION@; 2011/10/08 23:24 Tom King; build date: @BUILDDATE@
+		<!-- v@VERSION@; 2011/12/27 Tom King; build date: @BUILDDATE@
 
 			VNet+P a Pastelet to simplify use of VisitorNet
-			URL first displays as http://mmind.me/vnet?javascript:var%20p='…
+			URL first displays as http://mmind.me/vnet?javascript:var%20p='...
 			Copyright (c) 2011 Tom King. All rights reserved.
 		-->
 
@@ -118,27 +118,29 @@
 			// listener to dynamically position page for initial or return-trip
 			window.addEventListener('load',
 				function() {
-					var q = location.search, p = '', w = '';
-					if ('' !== q) {
+					if (location.search) {
 							// reload form UI from query string
 							try {
-								p = decodeURIComponent(q.match(/^\?javascript:.*?value=('|%27)(.*?)('|%27).*?value=('|%27)(.*?)('|%27)/)[2]);
-								w = decodeURIComponent(q.match(/^\?javascript:.*?value=('|%27)(.*?)('|%27).*?value=('|%27)(.*?)('|%27)/)[5]);
-								if (p !== '')	{
-									document.title = 'login ' + p.replace(/\W.*/, "…");
-									document.getElementById('pStr').value = p;
-									if (w !== '') document.getElementById('pwd').value = w;
+								var q = location.search, m = [];
+								q = decodeURIComponent(q.substr(1));
+								m = q.match(/^javascript:(.*?)value='(.*?)'(.*?)value='(.*?)'/);
+								if (m) {
+									if (m[2]) {
+										document.title = 'login ' + m[2].replace(/\W.*/, "&hellip;");
+										document.getElementById('pStr').value = m[2];
+										if (m[4]) document.getElementById('pwd').value = m[4];
+									}
+									else throw 'No login found in: ' + m;
 								}
-								// put a more human-readable, but compatible, version of bookmarklet in textarea
-								document.getElementById('bmrk').textContent = q.substring(1).replace(/\%27/g,"'");
-								document.getElementById('bmrk').textContent = document.getElementById('bmrk').textContent.replace(/\%5B/g,"[");
-								document.getElementById('bmrk').textContent = document.getElementById('bmrk').textContent.replace(/\%5D/g,"]");
+								else throw 'No match in: ' + q;
+								// put a more human-readable, but URI encoded, version of bookmarklet in textarea
+								document.getElementById('bmrk').textContent = encodeURI(q);
 								// if not iPhone/iPad unhide 'Pastelet as link' and set anchor tag
 								if (!(-1 != navigator.userAgent.indexOf('Safari') && -1 != navigator.userAgent.indexOf('Mobile'))) {
 									var pal = document.getElementById('pal'), pl = document.getElementById('pl');
 									if (null !== pal && null !== pl) {
 										pal.setAttribute("style", "display:inline;padding:7px;height:auto");
-										pl.setAttribute('href', q.substring(1));
+										pl.setAttribute('href', document.getElementById('bmrk').textContent);
 										pl.setAttribute('title', document.title);
 										pl.innerHTML = document.title;
 									}
@@ -147,6 +149,7 @@
 								window.scrollTo(0,90+document.getElementById('pltMkr').scrollHeight);
 							}
 							catch (e) {
+								console.log('error: ' + e);
 								alert("Unable to decode pastelet.\r\nForm will be reset.");
 								location.href=location.href.substring(0,location.href.indexOf('?'));
 								return;
@@ -159,32 +162,32 @@
 			// reload page with new bookmarklet appended
 			function loadpg(p) {
 				if ('' !== p) {
-				  document.getElementById('bmrk').textContent = p;
-				  location.href = location.protocol + '//' + location.host + location.port + location.pathname + '?' + p;
+				  document.getElementById('bmrk').textContent = 'javascript:' + encodeURI(p);
+				  location.href = location.protocol + '//' + location.host + location.port + location.pathname + '?javascript:' + encodeURIComponent(p);
 				}
 			}
 
-			// actually creates bookmarklet given 'u'=user string // EMAIL or LOGIN
+			// actually creates bookmarklet given 'u' = user ID and 'p' = password
 
-			//	VNet a Pastelet to simplify use of VisitorNet
-			//	URL first displays as http://mmind.me/vnet?javascript:var%20p='…
+			//	VNet+P a Pastelet to simplify use of VisitorNet
+			//	URL first displays as http://mmind.me/vnet?javascript:var%20p='...
 			//	Copyright (c) 2011 Tom King. All rights reserved
 			//
 			// Comments- Generated bookmarklet is carefully constructed for current version of VisitorNet
-			// *	An editable variable ('p') is defined early to ease bookmark editing.
-			// *	Bookmarklet code is optimized for size (ie, string length of all the code), given goal above.
-			// * void(0) is for cross-browser compatibility, a non-null return value causes some browsers to navigate
+			// *	Bookmarklet code is optimized for size (ie, string length of all the code).
+			// *    UserID (email) and password are used inline for tighter code.
+			// * void('@VERSION@') is a way to embed the version and provides cross-browser compatibility (a non-null return value causes some browsers to navigate)
 			//
 
 			function pastelet(u,p) {
-				return '' === u + p ? u : "javascript:document.getElementsByName('uid')%5B0%5D.value='" + encodeURIComponent(u) + "';document.getElementById('pwd').value='" + encodeURIComponent(p) + "';document.getElementsByName('agreeToTerms')%5B0%5D.checked=1;document.forms%5B0%5D.submit();void('@VERSION@')";
+				return '' === u + p ? u : "document.getElementsByName('uid')[0].value='"+u+"';document.getElementById('pwd').value='"+p+"';document.getElementsByName('agreeToTerms')[0].checked=1;document.forms[0].submit();void('@VERSION@')";
 			}
 		</script>
 	</head>
 
 	<body>
 		<div id="pg">
-			<script type="text/javascript">;</script>
+			<script type="text/javascript"></script>
 			<noscript>Javascript must be enabled for this app.</noscript>
 			<h1>VNet+P Bookmark Pastelet Setup</h1>
 			<div class="grp">
@@ -194,9 +197,9 @@
 			<h1>Step 1: Enter the text</h1>
 			<div class="grp">
 				<p>Enter the Username to paste and password. Then tap <b>Make VNet+P Pastelet</b> to reload this page for Step 2.</p>
-				<form id="pltMkr" onSubmit="loadpg(pastelet(document.getElementById('pStr').value,document.getElementById('pwd').value)); return false">
+				<form id="pltMkr" method="GET" action= "." onSubmit="loadpg(pastelet(document.getElementById('pStr').value,document.getElementById('pwd').value)); return false">
 					<label for="pStr">Username:&nbsp;
-						<input type="email" id="pStr" class="pStr" name="uid" size="25" maxlength="255" placeholder="email@company.com" autocorrect="off" autocapitalize="off" autofocus>
+						<input type="email" id="pStr" class="pStr" name="uid" size="25" maxlength="255" placeholder="email@company.com" autocorrect="on" autocapitalize="off" autofocus>
 					</label>
 					<label for="pwd"><br>Password:&nbsp;
 						<input type="password" id="pwd" class="pStr" name="pwd" size="9" maxlength="255" autocorrect="off" autocapitalize="off">
@@ -208,7 +211,7 @@
 						<textarea id="bmrk" cols="41" rows="4" class="vp" wrap="soft">No Pastelet yet. View Step 1 for instructions.</textarea>
 					</label>
 				</form>
-				<p id="pal" style="display:none">Pastelet as link: <a id="pl" href="" title="Pastelet">Pastelet</a><br><br></p>
+				<p id="pal" style="display:none">Pastelet as link: <a id="pl" href="." title="Pastelet">Pastelet</a><br><br></p>
 			</div>
 
 			<h1>Step 2: Add a Bookmark</h1>
