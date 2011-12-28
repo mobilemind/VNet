@@ -125,7 +125,7 @@
 								q = decodeURIComponent(q.substr(1));
 								m = q.match(/^javascript:p='.*?';.*?value='(.*?)'/);
 								if (m)	{
-									document.title = 'login ' + m[1].replace(/\W.*/, "&hellip;");
+									document.title = 'login ' + m[1].replace(/\W.*/, "…");
 									document.getElementById('pStr').value = m[1];
 									// put a more human-readable, but URI encoded, version of bookmarklet in textarea
 									document.getElementById('bmrk').textContent = encodeURI(q);

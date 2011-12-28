@@ -126,7 +126,7 @@
 								m = q.match(/^javascript:(.*?)value='(.*?)'(.*?)value='(.*?)'/);
 								if (m) {
 									if (m[2]) {
-										document.title = 'login ' + m[2].replace(/\W.*/, "&hellip;");
+										document.title = 'login ' + m[2].replace(/\W.*/, "…");
 										document.getElementById('pStr').value = m[2];
 										if (m[4]) document.getElementById('pwd').value = m[4];
 									}
@@ -138,7 +138,7 @@
 								// if not iPhone/iPad unhide 'Pastelet as link' and set anchor tag
 								if (!(-1 != navigator.userAgent.indexOf('Safari') && -1 != navigator.userAgent.indexOf('Mobile'))) {
 									var pal = document.getElementById('pal'), pl = document.getElementById('pl');
-									if (null !== pal && null !== pl) {
+									if (pal && pl) {
 										pal.setAttribute("style", "display:inline;padding:7px;height:auto");
 										pl.setAttribute('href', document.getElementById('bmrk').textContent);
 										pl.setAttribute('title', document.title);
