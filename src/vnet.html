@@ -124,7 +124,8 @@
 								var q = location.search, m = [];
 								q = decodeURIComponent(q.substr(1));
 								m = q.match(/^javascript:p='.*?';.*?value='(.*?)'/);
-								if (m)	{
+								if (!m) throw 'No match in ' + q;
+								else {
 									document.title = 'login ' + m[1].replace(/\W.*/, "…");
 									document.getElementById('pStr').value = m[1];
 									// put a more human-readable, but URI encoded, version of bookmarklet in textarea
@@ -132,7 +133,7 @@
 									// if not iPhone/iPad unhide 'Pastelet as link' and set anchor tag
 									if (!(-1 != navigator.userAgent.indexOf('Safari') && -1 != navigator.userAgent.indexOf('Mobile'))) {
 										var pal = document.getElementById('pal'), pl = document.getElementById('pl');
-										if (null !== pal && null !== pl) {
+										if (pal && pl) {
 											pal.setAttribute("style", "display:inline;padding:7px;height:auto");
 											pl.setAttribute('href', document.getElementById('bmrk').textContent);
 											pl.setAttribute('title', document.title);
@@ -142,12 +143,11 @@
 									// scroll to remaining steps
 									window.scrollTo(0,78+document.getElementById('pltMkr').scrollHeight);
 								}
-								else throw 'error: No match in ' + q;
 							}
 							catch (e) {
 								console.log('error: ' + e);
 								alert("Unable to decode pastelet.\r\nForm will be reset.");
-								location.href=location.href.substring(0,location.href.indexOf('?'));
+								location.href = location.protocol + '//' + location.host + location.port + location.pathname;
 								return;
 							}
 					}
@@ -176,15 +176,14 @@
 			//
 
 			function pastelet(u) {
-				return '' === u ? u : "p='';document.getElementsByName('uid')[0].value='"+u+"';document.getElementById('pwd').value=p;document.getElementsByName('agreeToTerms')[0].checked=1;''!=p?document.forms[0].submit():document.getElementById('pwd').focus();void('@VERSION@')";
+				return !u ? '' : "p='';document.getElementsByName('uid')[0].value='"+u+"';document.getElementById('pwd').value=p;document.getElementsByName('agreeToTerms')[0].checked=1;''!=p?document.forms[0].submit():document.getElementById('pwd').focus();void('@VERSION@')";
 			}
 		</script>
 	</head>
 
 	<body>
 		<div id="pg">
-			<script type="text/javascript"></script>
-			<noscript>Javascript must be enabled for this app.</noscript>
+			<noscript><b>&nbsp;&nbsp;Javascript must be enabled for this app.</b></noscript>
 			<h1>VNet Bookmark Pastelet Setup</h1>
 			<div class="grp">
 				<p>These four steps add a <i><a href="http://mmind.me/" title="Mmind:Pastelets &amp; more">Pastelet</a></i> bookmark to Mobile Safari that will paste in the Username, check the &ldquo;Agree to Terms&rdquo; box and set input focus on the password field. When creating multiple pastelets, press reset in-between doing each one.</p>

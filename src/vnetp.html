@@ -124,15 +124,15 @@
 								var q = location.search, m = [];
 								q = decodeURIComponent(q.substr(1));
 								m = q.match(/^javascript:(.*?)value='(.*?)'(.*?)value='(.*?)'/);
-								if (m) {
-									if (m[2]) {
+								if (!m) throw 'No match in: ' + q;
+								else {
+									if (!m[2]) throw 'No login found in: ' + m;
+									else {
 										document.title = 'login ' + m[2].replace(/\W.*/, "…");
 										document.getElementById('pStr').value = m[2];
 										if (m[4]) document.getElementById('pwd').value = m[4];
 									}
-									else throw 'No login found in: ' + m;
 								}
-								else throw 'No match in: ' + q;
 								// put a more human-readable, but URI encoded, version of bookmarklet in textarea
 								document.getElementById('bmrk').textContent = encodeURI(q);
 								// if not iPhone/iPad unhide 'Pastelet as link' and set anchor tag
@@ -151,7 +151,7 @@
 							catch (e) {
 								console.log('error: ' + e);
 								alert("Unable to decode pastelet.\r\nForm will be reset.");
-								location.href=location.href.substring(0,location.href.indexOf('?'));
+								location.href = location.protocol + '//' + location.host + location.port + location.pathname;
 								return;
 							}
 					}
@@ -180,15 +180,14 @@
 			//
 
 			function pastelet(u,p) {
-				return '' === u + p ? u : "document.getElementsByName('uid')[0].value='"+u+"';document.getElementById('pwd').value='"+p+"';document.getElementsByName('agreeToTerms')[0].checked=1;document.forms[0].submit();void('@VERSION@')";
+				return !(u + p) ? '' : "document.getElementsByName('uid')[0].value='"+u+"';document.getElementById('pwd').value='"+p+"';document.getElementsByName('agreeToTerms')[0].checked=1;document.forms[0].submit();void('@VERSION@')";
 			}
 		</script>
 	</head>
 
 	<body>
 		<div id="pg">
-			<script type="text/javascript"></script>
-			<noscript>Javascript must be enabled for this app.</noscript>
+			<noscript><b>&nbsp;&nbsp;Javascript must be enabled for this app.</b></noscript>
 			<h1>VNet+P Bookmark Pastelet Setup</h1>
 			<div class="grp">
 				<p>These four steps add a <i><a href="http://mmind.me/" title="Mmind:Pastelets &amp; more">Pastelet</a></i> bookmark to Mobile Safari that will paste in the Username, check the &ldquo;Agree to Terms&rdquo; box, complete the password field and login. When creating multiple pastelets, press reset in-between doing each one. If you're unsure about entering your password; don't do it, instead use the form for <a href="http://mmind.me/vnet" title="VNet Pastelet">VNet Pastelet</a> (no password).</p>
@@ -199,7 +198,7 @@
 				<p>Enter the Username to paste and password. Then tap <b>Make VNet+P Pastelet</b> to reload this page for Step 2.</p>
 				<form id="pltMkr" method="GET" action= "." onSubmit="loadpg(pastelet(document.getElementById('pStr').value,document.getElementById('pwd').value)); return false">
 					<label for="pStr">Username:&nbsp;
-						<input type="email" id="pStr" class="pStr" name="uid" size="25" maxlength="255" placeholder="email@company.com" autocorrect="on" autocapitalize="off" autofocus>
+						<input type="email" id="pStr" class="pStr" name="uid" size="25" maxlength="255" placeholder="email@company.com" required="required" autocorrect="on" autocapitalize="off" autofocus>
 					</label>
 					<label for="pwd"><br>Password:&nbsp;
 						<input type="password" id="pwd" class="pStr" name="pwd" size="9" maxlength="255" autocorrect="off" autocapitalize="off">
