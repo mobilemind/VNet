@@ -57,6 +57,7 @@ Source code is available. The bookmark JavaScript was written to be as small as 
 
 Build Requirements & Notes
 ----------
+
 The make file requires the Java-based htmlcompressor and yuicompressor included in the lib folder. It also requires the bash shell, make, perl, tidy, jsl, gzip and optionally uses growlnotify.
 Required utilities are easily installed on Mac OS X with brew or on Windows with Cygwin.
 
