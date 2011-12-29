@@ -8,7 +8,7 @@ manifests = $(projname).manifest $(subprojname).manifest
 srcfiles = $(htmlfiles) $(manifests)
 htmlcompressor = java -jar lib/htmlcompressor-1.5.2.jar
 compressoroptions = -t html -c utf-8 --remove-quotes --remove-intertag-spaces  --remove-surrounding-spaces min --compress-js --compress-css
-growl := $(shell ! hash growlnotify &>/dev/null && echo 'true\c' || (echo 'growlnotify \c' && [[ 'darwin11' == $$OSTYPE ]] && echo "-t $(projname) -m\c" || ([[ 'cygwin' == $$OSTYPE ]] && echo "/t:$(projname)\c" || echo '\c')) )
+growl := $(shell ! hash growlnotify &>/dev/null && echo -e 'true\c' || ([[ 'darwin11' == $$OSTYPE ]] && echo -e "growlnotify -t $(projname) -m\c" || ([[ 'cygwin' == $$OSTYPE ]] && echo -e "growlnotify /t:$(projname)\c" || echo -e '\c')) )
 version := $(shell head -1 src/VERSION)
 builddate := $(shell date)
 
@@ -29,9 +29,9 @@ set_ver: copy_src
 
 validate_html: copy_src set_ver
 	@$(growl) "Validation started"
-	@echo "   Validating HTML…\n"
+	@echo -e "   Validating HTML…\n"
 	@(hash tidy && ($(foreach html,$(htmlfiles), echo "$(html)"; tidy -eq $(html); [[ $$? -lt 2 ]] && echo;)))
-	@echo "   Validating JavaScript…\n"
+	@echo -e "   Validating JavaScript…\n"
 	@(hash jsl && ($(foreach html,$(htmlfiles), echo "$(html)"; jsl -process $(html) -nologo -nofilelisting -nosummary && echo ' OK';)) && echo)
 
 compress_html: copy_src set_ver validate_html
@@ -49,7 +49,7 @@ mv2build: copy_src compress_html
 build: mv2build
 	@echo "   Removing temporary $(projname) $(subprojname) $(srcfiles) and *.bak"
 	@rm -rf $(projname) $(subprojname) $(srcfiles) *.bak
-	@echo "Build complete. See build/ directory for $(projname), $(subprojname), $(projname).manifest, and $(imgdir)/.\n"
+	@echo -e "Build complete. See build/ directory for $(projname), $(subprojname), $(projname).manifest, and $(imgdir)/.\n"
 	@$(growl) "Done. See $(projname)/build directory"
 clean:
 	@echo '   Cleaning build folder and root…' && rm -rf build/* $(projname) $(subprojname) $(srcfiles) *.bak
