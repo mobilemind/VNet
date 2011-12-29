@@ -34,11 +34,13 @@ set_ver: copy_src
 validate_html: copy_src set_ver
 	@$(growl) "Validation started"
 	@$(echoe) "   Validating HTML…\n"
-	@(hash tidy && ($(foreach html,$(htmlfiles), echo "$(html)"; \
+	@(hash tidy && ($(foreach html,$(htmlfiles), \
+		echo "$(html)"; \
 		tidy -eq $(html); [[ $$? -lt 2 ]] && echo;)) \
 	)
 	@$(echoe) "   Validating JavaScript…\n"
-	@(hash jsl && ($(foreach html,$(htmlfiles), echo "$(html)"; \
+	@(hash jsl && ($(foreach html,$(htmlfiles), \
+		echo "$(html)"; \
 		jsl -process $(html) -nologo -nofilelisting -nosummary && echo ' OK';)) && echo \
 	)
 
