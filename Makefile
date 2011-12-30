@@ -18,54 +18,55 @@ default: clean build
 
 copy_src:
 	@$(growl) "Make started"
-	@echo '   Copying source files…'
-	@[[ -d build ]] || mkdir -m 744 build
-	@cp -Rfp src/img build
-	@($(foreach proj,$(projects), \
-		cp -fp src/$(proj).* .;) \
+	@(echo '   Copying source files…'; \
+		[[ -d build ]] || mkdir -m 744 build; \
+		cp -Rfp src/img build; \
+		$(foreach proj,$(projects), \
+			cp -fp src/$(proj).* .;) \
 	)
 
-set_ver: copy_src
-	@echo '   Setting version and build date…'
+html: copy_src
+# build src to root
+	@echo '   Setting version and build date…';
 	@(perl -p -i -e "s/\@VERSION\@/$(version)/g;" $(srcfiles); \
 		perl -p -i -e "s/\@BUILDDATE\@/$(builddate)/g;" $(srcfiles) \
 	)
 
-validate_html: copy_src set_ver
+validate: html
+# validate in root
 	@$(growl) "Validation started"
-	@$(echoe) "   Validating HTML…\n"
-	@(hash tidy && ($(foreach html,$(htmlfiles), \
-		echo "$(html)"; \
-		tidy -eq $(html); [[ $$? -lt 2 ]] && echo;)) \
+	@($(echoe) "   Validating HTML…\n"; \
+		hash tidy && ($(foreach html,$(htmlfiles), \
+			echo "$(html)"; \
+			tidy -eq $(html); [[ $$? -lt 2 ]] && echo;)) \
 	)
-	@$(echoe) "   Validating JavaScript…\n"
-	@(hash jsl && ($(foreach html,$(htmlfiles), \
-		echo "$(html)"; \
-		jsl -process $(html) -nologo -nofilelisting -nosummary && echo ' OK';)) && echo \
+	@($(echoe) "   Validating JavaScript…\n"; \
+		hash jsl && ($(foreach html,$(htmlfiles), \
+			echo "$(html)"; \
+			jsl -process $(html) -nologo -nofilelisting -nosummary && echo ' OK';)) && echo \
 	)
 
-compress_html: copy_src set_ver validate_html
+minify: validate
+# minify to /build/
 	@$(growl) "Compression started"
-	@echo '   Compressing HTML files…'
-	@$(htmlcompressor) $(compressoroptions) --mask *.html -o build $(htmlfiles)
-	@($(foreach html,$(htmlfiles), \
-		gzip -f build/$(html);) \
+	@(echo '   Compressing HTML files…'; \
+		$(htmlcompressor) $(compressoroptions) --mask *.html -o build $(htmlfiles); \
+		cd build; \
+		gzip -f $(htmlfiles) \
 	)
 
-mv2build: copy_src compress_html
-	@echo '   Moving built files to web directory…'
+build: minify
+	@echo '   Moving built HTML files to build directory…'
 	@($(foreach proj,$(projects), \
-		mv -f build/$(proj).html.gz build/$(proj);) \
+			mv -f build/$(proj).html.gz build/$(proj);) \
+		$(foreach manifest,$(manifests),\
+			mv -f $(manifest) build;) \
+		chmod -R 744 build; \
+		rm -rf $(projname) $(subprojname) $(srcfiles) *.bak; \
+		$(echoe) "Build complete. See /build/ directory for files.\n"; \
+		$(growl) "Done. See $(projname)/build directory." \
 	)
-	@($(foreach manifest,$(manifests),\
-		mv -f $(manifest) build;) \
-	)
-	@chmod -R 744 build
 
-build: mv2build
-	@echo "   Removing temporary $(projname) $(subprojname) $(srcfiles) and *.bak"
-	@rm -rf $(projname) $(subprojname) $(srcfiles) *.bak
-	@$(echoe) "Build complete. See build/ directory for $(projname), $(subprojname), $(projname).manifest, and $(imgdir)/.\n"
-	@$(growl) "Done. See $(projname)/build directory"
 clean:
-	@echo '   Cleaning build folder and root…' && rm -rf build/* $(projname) $(subprojname) $(srcfiles) *.bak
+	@echo '   Cleaning build folder and root…'
+	@rm -rf build/* $(projname) $(subprojname) $(srcfiles) *.bak
