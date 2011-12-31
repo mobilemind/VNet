@@ -12,14 +12,16 @@ growl := $(shell ! hash growlnotify &>/dev/null && echo 'true' || ([[ 'darwin11'
 builddate := $(shell date)
 replacetokens = perl -p -i -e "s/\@VERSION\@/`head -1 VERSION`/g;" $@; perl -p -i -e "s/\@BUILDDATE\@/$(builddate)/g;" $@
 
-default: $(compressedfiles) $(manifests) imgdir
-	@echo '   Moving built HTML files to build directory…'
-	@($(foreach proj,$(projects), mv -f $(proj).html.gz build/$(proj);) \
-		$(foreach manifest,$(manifests), mv -f $(manifest) build;) \
-		chmod -R 744 build; \
-		echo "Done. See $(projname)/build directory"; echo; \
-		$(growl) "Done. See $(projname)/build directory." \
-	)
+default: checkbuild
+	@(echo "Done. See $(projname)/web directory"; echo; \
+		$(growl) "Done. See $(projname)/web directory." )
+
+.PHONY: checkbuild
+checkbuild: $(compressedfiles) $(manifests) imgdir
+	@echo '   Moving built HTML files to web directory…'
+	@($(foreach proj,$(projects), mv -f $(proj).html.gz web/$(proj);) \
+		$(foreach manifest,$(manifests), mv -f $(manifest) web;) \
+		chmod -R 744 web )
 		
 .PHONY: clean
 clean:
