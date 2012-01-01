@@ -1,6 +1,6 @@
 VNet
 https://github.com/mobilemind/VNet
-Copyright (c) 2011 Tom King <mobilemind@pobox.com>
+Copyright (c) 2011-2012 Tom King mobilemind@pobox.com
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the
@@ -22,25 +22,13 @@ OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ATTRIBUTIONS
-The VNet project uses object code from two different projects;
-htmlcompressor and yuicompressor. Each project has its own license.
+The Makefile for the VNet project uses object code from htmlcompressor.
+The htmlcompressor project has its own license and sub-projects.
+End-users are responsible for obtaining a htmlcompressor and its
+related components, under their respective license terms.
 
 HTMLCOMPRESSOR
 https://code.google.com/p/htmlcompressor/
-The htmlcompressor object code included in this distribution is
-obtained from the source above. It is distributed under the
-copyright holder's terms via the Apache License found at:
-https://www.apache.org/licenses/LICENSE-2.0
-
-YUICOMPRESSOR
-Copyright © 2011 Yahoo! Inc. All rights reserved.
-The yuicompressor object code included in this distribution was
-obtained from:
-http://yuilibrary.com/projects/yuicompressor/
-
-It is distributed under the copyright holder's terms via the
-BSD license found here:
-http://yuilibrary.com/license/
-
-Within the pastelets projects, see the file bin/LICENSE.TXT for
-the complete license included per the BSD license cited above.
+The htmlcompressor object code can be obtained from the URL above.
+The copyright holder copyright provides it under the Apache License
+found at: https://www.apache.org/licenses/LICENSE-2.0

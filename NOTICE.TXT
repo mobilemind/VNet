@@ -1,24 +1,17 @@
 NOTICE
 
-The VNet project uses object code from two different projects;
-htmlcompressor and yuicompressor. Each project has its own license.
+VNet Project
+The VNet project is available under an MIT License, see
+LICENSE.TXT for details.
+
+The VNet project uses htmlcompressor which has its own license,
+and may require additional components available under separate
+license(s).
 
 HTMLCOMPRESSOR
 https://code.google.com/p/htmlcompressor/
-The htmlcompressor object code included in this distribution is
-obtained from the source above. It is distributed under the
-copyright holder's terms via the Apache License found at:
+The htmlcompressor license, source and object code are available
+at the URL above. At the time of this writing, the copyright
+holder distributes under an Apache License.
 https://www.apache.org/licenses/LICENSE-2.0
 
-YUICOMPRESSOR
-Copyright © 2011 Yahoo! Inc. All rights reserved.
-The yuicompressor object code included in this distribution was
-obtained from:
-http://yuilibrary.com/projects/yuicompressor/
-
-It is distributed under the copyright holder's terms via the
-BSD license found here:
-http://yuilibrary.com/license/
-
-Within the pastelets projects, see the file bin/LICENSE.TXT for
-the complete license included per the BSD license cited above.
