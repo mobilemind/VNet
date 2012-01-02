@@ -9,68 +9,70 @@ PROJECTS = $(PROJ) $(SUBPROJ)
 COMPRESSEDFILES = $(PROJ).html.gz $(SUBPROJ).html.gz
 MANIFESTS = $(PROJ).manifest $(SUBPROJ).manifest
 # directories/paths
-SRC := src
-BUILD := build
+SRCDIR := src
+BUILDDIR := build
 COMMONLIB := $$HOME/common/lib
-WEB := web
+WEBDIR := web
 IMGDIR := img
-VERSIONTXT := $(SRC)/VERSION.txt
-VPATH := $(WEB):$(BUILD)
+VERSIONTXT := $(SRCDIR)/VERSION.txt
+VPATH := $(WEBDIR):$(BUILDDIR)
 # macros/utils
 HTMLCOMPRESSOR := java -jar $(COMMONLIB)/htmlcompressor-1.5.2.jar
 COMPRESSOPTIONS := -t html -c utf-8 --remove-quotes --remove-intertag-spaces --remove-surrounding-spaces min --compress-js --compress-css
+MMBUILDDATE := _MmBUILDDATE_
 BUILDDATE := $(shell date)
+MMVERSION := _MmVERSION_
 VERSION := $(shell head -1 $(VERSIONTXT))
 GROWL := $(shell ! hash growlnotify &>/dev/null && echo 'true' || ([[ 'darwin11' == $$OSTYPE ]] && echo "growlnotify -t $(PROJ) -m" || ([[ 'cygwin' == $$OSTYPE ]] && echo -e "growlnotify /t:$(PROJ)\c" || echo)) )
-REPLACETOKENS = perl -p -i -e "s/\@VERSION\@/$(VERSION)/g;" $@; perl -p -i -e "s/\@BUILDDATE\@/$(BUILDDATE)/g;" $@
+REPLACETOKENS = perl -p -i -e "s/$(MMVERSION)/$(VERSION)/g;" $@; \perl -p -i -e "s/$(MMBUILDDATE)/$(BUILDDATE)/g;" $@
 
 
-default: $(PROJECTS) | $(BUILD) $(WEB) $(IMGDIR)
-	@(chmod -R 744 $(WEB); \
-		$(GROWL) "Done. See $(PROJ)/$(WEB) directory."; echo; \
-		echo "Done. See $(PROJ)/$(WEB) directory"; echo )
+default: $(PROJECTS) | $(BUILDDIR) $(WEBDIR) $(IMGDIR)
+	@(chmod -R 744 $(WEBDIR); \
+		$(GROWL) "Done. See $(PROJ)/$(WEBDIR) directory."; echo; \
+		echo "Done. See $(PROJ)/$(WEBDIR) directory"; echo )
 
-$(PROJ)  $(SUBPROJ): $(MANIFESTS) $(COMPRESSEDFILES) | $(WEB)
+$(PROJ)  $(SUBPROJ): $(MANIFESTS) $(COMPRESSEDFILES) | $(WEBDIR)
 	@(echo; \
 		echo "Copying built files…"; \
-		cp -f $(BUILD)/$@.html.gz $(WEB)/$@; \
-		cp -f $(BUILD)/$@.manifest $(WEB); \
-		cp -Rfp $(SRC)/$(IMGDIR) $(WEB) )
+		cp -f $(BUILDDIR)/$@.html.gz $(WEBDIR)/$@; \
+		cp -f $(BUILDDIR)/$@.manifest $(WEBDIR); \
+		cp -Rfp $(SRCDIR)/$(IMGDIR) $(WEBDIR) )
 
 # run through html compressor and into gzip
-%.html.gz: %.html | $(BUILD)
+%.html.gz: %.html | $(BUILDDIR)
 	@(echo "Compressing $^…"; \
-		$(HTMLCOMPRESSOR) $(COMPRESSOPTIONS) $(BUILD)/$^ | gzip > $(BUILD)/$@ )
+		$(HTMLCOMPRESSOR) $(COMPRESSOPTIONS) $(BUILDDIR)/$^ | gzip > $(BUILDDIR)/$@ )
 
-# copy HTML to $(BUILD) and replace tokens, then check with tidy & jsl (JavaScript Lint)
-%.html: $(SRC)/%.html $(VERSIONTXT) | $(BUILD)
+# copy HTML to $(BUILDDIR) and replace tokens, then check with tidy & jsl (JavaScript Lint)
+%.html: $(SRCDIR)/%.html $(VERSIONTXT) | $(BUILDDIR)
 	@(echo; echo $@; \
-		cp -f src/$@ $(BUILD); \
-		cd $(BUILD); \
+		cp -f src/$@ $(BUILDDIR); \
+		cd $(BUILDDIR); \
 		$(REPLACETOKENS); \
 		hash tidy && (tidy -eq $@; [[ $$? -lt 2 ]] && true); \
 		hash jsl && jsl -process $@ -nologo -nofilelisting -nosummary )
 
-# copy manifest to $(BUILD) and replace tokens
-%.manifest: $(SRC)/%.manifest $(VERSIONTXT) | $(BUILD)
+# copy manifest to $(BUILDDIR) and replace tokens
+%.manifest: $(SRCDIR)/%.manifest $(VERSIONTXT) | $(BUILDDIR)
 	@(echo; echo $@; \
-		cp -f src/$@ $(BUILD); \
-		cd $(BUILD); \
+		cp -f src/$@ $(BUILDDIR); \
+		cd $(BUILDDIR); \
 		$(REPLACETOKENS) )
 
-.PHONY: $(BUILD)
-$(BUILD):
-	@[[ -d $(BUILD) ]] || mkdir -m 744 $(BUILD)
+.PHONY: $(BUILDDIR)
+$(BUILDDIR):
+	@[[ -d $(BUILDDIR) ]] || mkdir -m 744 $(BUILDDIR)
 
-.PHONY: $(WEB)
-$(WEB):
-	@[[ -d $(WEB) ]] || mkdir -m 744 $(WEB)
+.PHONY: $(WEBDIR)
+$(WEBDIR):
+	@[[ -d $(WEBDIR) ]] || mkdir -m 744 $(WEBDIR)
 
 .PHONY: $(IMGDIR)
-$(IMGDIR): | $(BUILD)
-	@cp -Rfp $(SRC)/$(IMGDIR) $(BUILD)
+$(IMGDIR): | $(BUILDDIR)
+	@cp -Rfp $(SRCDIR)/$(IMGDIR) $(BUILDDIR)
 
 .PHONY: clean
 clean:
 	@echo 'Cleaning build directory and web directory…'
-	@rm -rf $(BUILD)/* $(WEB)/* || true
+	@rm -rf $(BUILDDIR)/* $(WEBDIR)/* || true
