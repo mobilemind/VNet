@@ -35,14 +35,14 @@ default: $(PROJECTS) | $(BUILDDIR) $(WEBDIR) $(IMGDIR)
 $(PROJ)  $(SUBPROJ): $(MANIFESTS) $(COMPRESSEDFILES) | $(WEBDIR)
 	@(echo; \
 		echo "Copying built files…"; \
-		cp -f $(BUILDDIR)/$@.html.gz $(WEBDIR)/$@; \
-		cp -f $(BUILDDIR)/$@.manifest $(WEBDIR); \
+		cp -fp $(BUILDDIR)/$@.html.gz $(WEBDIR)/$@; \
+		cp -fp $(BUILDDIR)/$@.manifest $(WEBDIR); \
 		cp -Rfp $(SRCDIR)/$(IMGDIR) $(WEBDIR) )
 
 # run through html compressor and into gzip
 %.html.gz: %.html | $(BUILDDIR)
 	@(echo "Compressing $^…"; \
-		$(HTMLCOMPRESSOR) $(COMPRESSOPTIONS) $(BUILDDIR)/$^ | gzip > $(BUILDDIR)/$@ )
+		$(HTMLCOMPRESSOR) $(COMPRESSOPTIONS) $(BUILDDIR)/$^ | gzip -f9 > $(BUILDDIR)/$@ )
 
 # copy HTML to $(BUILDDIR) and replace tokens, then check with tidy & jsl (JavaScript Lint)
 %.html: $(SRCDIR)/%.html $(VERSIONTXT) | $(BUILDDIR)
@@ -56,7 +56,7 @@ $(PROJ)  $(SUBPROJ): $(MANIFESTS) $(COMPRESSEDFILES) | $(WEBDIR)
 # copy manifest to $(BUILDDIR) and replace tokens
 %.manifest: $(SRCDIR)/%.manifest $(VERSIONTXT) | $(BUILDDIR)
 	@(echo; echo $@; \
-		cp -f src/$@ $(BUILDDIR); \
+		cp -fp src/$@ $(BUILDDIR); \
 		cd $(BUILDDIR); \
 		$(REPLACETOKENS) )
 
