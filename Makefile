@@ -46,8 +46,8 @@ $(PROJ)  $(SUBPROJ): $(MANIFESTS) $(COMPRESSEDFILES) | $(WEB)
 		cp -f src/$@ $(BUILD); \
 		cd $(BUILD); \
 		$(REPLACETOKENS); \
-		[[ "$(suffix $@)" != ".html" ]] || (hash tidy && (tidy -eq $@; [[ $$? -lt 2 ]] && true)); \
-		[[ "$(suffix $@)" != ".html" ]] || (hash jsl && jsl -process $@ -nologo -nofilelisting -nosummary) )
+		hash tidy && (tidy -eq $@; [[ $$? -lt 2 ]] && true); \
+		hash jsl && jsl -process $@ -nologo -nofilelisting -nosummary )
 
 # copy manifest to $(BUILD) and replace tokens
 %.manifest: $(SRC)/$(@F) $(SRC)/VERSION.txt | $(BUILD)
