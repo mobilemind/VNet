@@ -9,16 +9,18 @@ PROJECTS = $(PROJ) $(SUBPROJ)
 COMPRESSEDFILES = $(PROJ).html.gz $(SUBPROJ).html.gz
 MANIFESTS = $(PROJ).manifest $(SUBPROJ).manifest
 # directories/paths
-SRC = src
-BUILD = build
-WEB = web
-IMGDIR = img
+SRC := src
+BUILD := build
+COMMONLIB := $$HOME/common/lib
+WEB := web
+IMGDIR := img
+VERSIONTXT := $(SRC)/VERSION.txt
 VPATH := $(WEB):$(BUILD)
 # macros/utils
-HTMLCOMPRESSOR := java -jar $$HOME/common/lib/htmlcompressor-1.5.2.jar
-COMPRESSOPTIONS := -t html -c utf-8 --remove-quotes --remove-intertag-spaces  --remove-surrounding-spaces min --compress-js --compress-css
+HTMLCOMPRESSOR := java -jar $(COMMONLIB)/htmlcompressor-1.5.2.jar
+COMPRESSOPTIONS := -t html -c utf-8 --remove-quotes --remove-intertag-spaces --remove-surrounding-spaces min --compress-js --compress-css
 BUILDDATE := $(shell date)
-VERSION := $(shell head -1 $(SRC)/VERSION.txt)
+VERSION := $(shell head -1 $(VERSIONTXT))
 GROWL := $(shell ! hash growlnotify &>/dev/null && echo 'true' || ([[ 'darwin11' == $$OSTYPE ]] && echo "growlnotify -t $(PROJ) -m" || ([[ 'cygwin' == $$OSTYPE ]] && echo -e "growlnotify /t:$(PROJ)\c" || echo)) )
 REPLACETOKENS = perl -p -i -e "s/\@VERSION\@/$(VERSION)/g;" $@; perl -p -i -e "s/\@BUILDDATE\@/$(BUILDDATE)/g;" $@
 
@@ -41,7 +43,7 @@ $(PROJ)  $(SUBPROJ): $(MANIFESTS) $(COMPRESSEDFILES) | $(WEB)
 		$(HTMLCOMPRESSOR) $(COMPRESSOPTIONS) $(BUILD)/$^ | gzip > $(BUILD)/$@ )
 
 # copy HTML to $(BUILD) and replace tokens, then check with tidy & jsl (JavaScript Lint)
-%.html: $(SRC)/$(@F) $(SRC)/VERSION.txt | $(BUILD)
+%.html: $(SRC)/%.html $(VERSIONTXT) | $(BUILD)
 	@(echo; echo $@; \
 		cp -f src/$@ $(BUILD); \
 		cd $(BUILD); \
@@ -50,7 +52,7 @@ $(PROJ)  $(SUBPROJ): $(MANIFESTS) $(COMPRESSEDFILES) | $(WEB)
 		hash jsl && jsl -process $@ -nologo -nofilelisting -nosummary )
 
 # copy manifest to $(BUILD) and replace tokens
-%.manifest: $(SRC)/$(@F) $(SRC)/VERSION.txt | $(BUILD)
+%.manifest: $(SRC)/%.manifest $(VERSIONTXT) | $(BUILD)
 	@(echo; echo $@; \
 		cp -f src/$@ $(BUILD); \
 		cd $(BUILD); \
