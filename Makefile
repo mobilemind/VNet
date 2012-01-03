@@ -5,24 +5,25 @@
 ##
 PROJ = vnet
 SUBPROJ = vnetp
-PROJECTS = $(PROJ) $(SUBPROJ)
-COMPRESSEDFILES = $(PROJ).html.gz $(SUBPROJ).html.gz
-MANIFESTS = $(PROJ).manifest $(SUBPROJ).manifest
 # directories/paths
 SRCDIR := src
 BUILDDIR := build
 COMMONLIB := $$HOME/common/lib
 WEBDIR := web
 IMGDIR := img
-VERSIONTXT := $(SRCDIR)/VERSION.txt
 VPATH := $(WEBDIR):$(BUILDDIR)
+# files
+PROJECTS = $(PROJ) $(SUBPROJ)
+COMPRESSEDFILES = $(PROJ).html.gz $(SUBPROJ).html.gz
+MANIFESTS = $(PROJ).manifest $(SUBPROJ).manifest
+VERSIONTXT := $(SRCDIR)/VERSION.txt
 # macros/utils
-HTMLCOMPRESSOR := java -jar $(COMMONLIB)/htmlcompressor-1.5.2.jar
-COMPRESSOPTIONS := -t html -c utf-8 --remove-quotes --remove-intertag-spaces --remove-surrounding-spaces min --compress-js --compress-css
 MMBUILDDATE := _MmBUILDDATE_
 BUILDDATE := $(shell date)
 MMVERSION := _MmVERSION_
 VERSION := $(shell head -1 $(VERSIONTXT))
+HTMLCOMPRESSOR := java -jar $(COMMONLIB)/htmlcompressor-1.5.2.jar
+COMPRESSOPTIONS := -t html -c utf-8 --remove-quotes --remove-intertag-spaces --remove-surrounding-spaces min --compress-js --compress-css
 GROWL := $(shell ! hash growlnotify &>/dev/null && echo 'true' || ([[ 'darwin11' == $$OSTYPE ]] && echo "growlnotify -t $(PROJ) -m" || ([[ 'cygwin' == $$OSTYPE ]] && echo -e "growlnotify /t:$(PROJ)\c" || echo)) )
 REPLACETOKENS = perl -p -i -e "s/$(MMVERSION)/$(VERSION)/g;" $@; \perl -p -i -e "s/$(MMBUILDDATE)/$(BUILDDATE)/g;" $@
 
@@ -47,7 +48,7 @@ $(PROJ)  $(SUBPROJ): $(MANIFESTS) $(COMPRESSEDFILES) | $(WEBDIR)
 # copy HTML to $(BUILDDIR) and replace tokens, then check with tidy & jsl (JavaScript Lint)
 %.html: $(SRCDIR)/%.html $(VERSIONTXT) | $(BUILDDIR)
 	@(echo; echo $@; \
-		cp -f src/$@ $(BUILDDIR); \
+		cp -f $(SRCDIR)/$@ $(BUILDDIR); \
 		cd $(BUILDDIR); \
 		$(REPLACETOKENS); \
 		hash tidy && (tidy -eq $@; [[ $$? -lt 2 ]] && true); \
@@ -56,7 +57,7 @@ $(PROJ)  $(SUBPROJ): $(MANIFESTS) $(COMPRESSEDFILES) | $(WEBDIR)
 # copy manifest to $(BUILDDIR) and replace tokens
 %.manifest: $(SRCDIR)/%.manifest $(VERSIONTXT) | $(BUILDDIR)
 	@(echo; echo $@; \
-		cp -fp src/$@ $(BUILDDIR); \
+		cp -fp $(SRCDIR)/$@ $(BUILDDIR); \
 		cd $(BUILDDIR); \
 		$(REPLACETOKENS) )
 
