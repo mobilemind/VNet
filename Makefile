@@ -22,9 +22,9 @@ MMBUILDDATE := _MmBUILDDATE_
 BUILDDATE := $(shell date)
 MMVERSION := _MmVERSION_
 VERSION := $(shell head -1 $(VERSIONTXT))
-HTMLCOMPRESSOR := htmlcompressor-1.5.2.jar
+HTMLCOMPRESSORJAR := htmlcompressor-1.5.2.jar
 HTMLCOMPRESSORPATH := $(shell [[ 'cygwin' == $$OSTYPE ]] &&  echo "`cygpath -w $(COMMONLIB)`\\" || echo "$(COMMONLIB)/")
-HTMLCOMPRESSOR := java -jar "$(HTMLCOMPRESSORPATH)$(HTMLCOMPRESSOR)"
+HTMLCOMPRESSOR := java -jar "$(HTMLCOMPRESSORPATH)$(HTMLCOMPRESSORJAR)"
 COMPRESSOPTIONS := -t html -c utf-8 --remove-quotes --remove-intertag-spaces --remove-surrounding-spaces min --compress-js --compress-css
 GROWL := $(shell ! hash growlnotify &>/dev/null && echo 'true' || ([[ 'darwin11' == $$OSTYPE ]] && echo "growlnotify -t $(PROJ) -m" || ([[ 'cygwin' == $$OSTYPE ]] && echo -e "growlnotify /t:$(PROJ)\c" || echo)) )
 REPLACETOKENS = perl -p -i -e 's/$(MMVERSION)/$(VERSION)/g;' $@; perl -p -i -e 's/$(MMBUILDDATE)/$(BUILDDATE)/g;' $@
