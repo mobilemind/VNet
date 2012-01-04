@@ -22,10 +22,12 @@ MMBUILDDATE := _MmBUILDDATE_
 BUILDDATE := $(shell date)
 MMVERSION := _MmVERSION_
 VERSION := $(shell head -1 $(VERSIONTXT))
-HTMLCOMPRESSOR := java -jar $(COMMONLIB)/htmlcompressor-1.5.2.jar
+HTMLCOMPRESSOR := htmlcompressor-1.5.2.jar
+HTMLCOMPRESSORPATH := $(shell [[ 'cygwin' == $$OSTYPE ]] &&  echo "`cygpath -w $(COMMONLIB)`\\" || echo "$(COMMONLIB)/")
+HTMLCOMPRESSOR := java -jar "$(HTMLCOMPRESSORPATH)$(HTMLCOMPRESSOR)"
 COMPRESSOPTIONS := -t html -c utf-8 --remove-quotes --remove-intertag-spaces --remove-surrounding-spaces min --compress-js --compress-css
 GROWL := $(shell ! hash growlnotify &>/dev/null && echo 'true' || ([[ 'darwin11' == $$OSTYPE ]] && echo "growlnotify -t $(PROJ) -m" || ([[ 'cygwin' == $$OSTYPE ]] && echo -e "growlnotify /t:$(PROJ)\c" || echo)) )
-REPLACETOKENS = perl -p -i -e "s/$(MMVERSION)/$(VERSION)/g;" $@; \perl -p -i -e "s/$(MMBUILDDATE)/$(BUILDDATE)/g;" $@
+REPLACETOKENS = perl -p -i -e 's/$(MMVERSION)/$(VERSION)/g;' $@; perl -p -i -e 's/$(MMBUILDDATE)/$(BUILDDATE)/g;' $@
 
 
 default: $(PROJECTS) | $(BUILDDIR) $(WEBDIR) $(IMGDIR)
@@ -35,14 +37,14 @@ default: $(PROJECTS) | $(BUILDDIR) $(WEBDIR) $(IMGDIR)
 
 $(PROJ)  $(SUBPROJ): $(MANIFESTS) $(COMPRESSEDFILES) | $(WEBDIR)
 	@(echo; \
-		echo "Copying built files…"; \
+		echo "Copying built files..."; \
 		cp -fp $(BUILDDIR)/$@.html.gz $(WEBDIR)/$@; \
 		cp -fp $(BUILDDIR)/$@.manifest $(WEBDIR); \
 		cp -Rfp $(SRCDIR)/$(IMGDIR) $(WEBDIR) )
 
 # run through html compressor and into gzip
 %.html.gz: %.html | $(BUILDDIR)
-	@(echo "Compressing $^…"; \
+	@(echo "Compressing $^..."; \
 		$(HTMLCOMPRESSOR) $(COMPRESSOPTIONS) $(BUILDDIR)/$^ | gzip -f9 > $(BUILDDIR)/$@ )
 
 # copy HTML to $(BUILDDIR) and replace tokens, then check with tidy & jsl (JavaScript Lint)
@@ -75,5 +77,5 @@ $(IMGDIR): | $(BUILDDIR)
 
 .PHONY: clean
 clean:
-	@echo 'Cleaning build directory and web directory…'
+	@echo 'Cleaning build directory and web directory...'
 	@rm -rf $(BUILDDIR)/* $(WEBDIR)/* || true
