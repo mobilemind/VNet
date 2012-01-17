@@ -107,7 +107,7 @@
 				text-align: right
 			}
 		</style>
-		<!-- v@VERSION@; 2011/12/27 Tom King; build date: @BUILDDATE@
+		<!-- v_MmVERSION_; 2011/12/27 Tom King; build date: _MmBUILDDATE_
 
 			VNet+P a Pastelet to simplify use of VisitorNet
 			URL first displays as http://mmind.me/vnet?javascript:var%20p='...
@@ -172,16 +172,16 @@
 
 			//	VNet+P a Pastelet to simplify use of VisitorNet
 			//	URL first displays as http://mmind.me/vnet?javascript:var%20p='...
-			//	Copyright (c) 2011 Tom King. All rights reserved
+			//	Copyright (c) 2011, 2012 Tom King. All rights reserved
 			//
 			// Comments- Generated bookmarklet is carefully constructed for current version of VisitorNet
 			// *	Bookmarklet code is optimized for size (ie, string length of all the code).
 			// *    UserID (email) and password are used inline for tighter code.
-			// * void('@VERSION@') is a way to embed the version and provides cross-browser compatibility (a non-null return value causes some browsers to navigate)
+			// * void('_MmVERSION_') is a way to embed the version and provides cross-browser compatibility (a non-null return value causes some browsers to navigate)
 			//
 
 			function pastelet(u,p) {
-				return !(u + p) ? '' : "document.getElementsByName('uid')[0].value='"+u+"';document.getElementById('pwd').value='"+p+"';document.getElementsByName('agreeToTerms')[0].checked=1;document.forms[0].submit();void('@VERSION@')";
+				return !(u + p) ? '' : "document.getElementsByName('uid')[0].value='"+u+"';document.getElementById('pwd').value='"+p+"';document.getElementsByName('agreeToTerms')[0].checked=1;document.forms[0].submit();void('_MmVERSION_')";
 			}
 		</script>
 	</head>
@@ -191,7 +191,12 @@
 			<noscript><b>&nbsp;&nbsp;Javascript must be enabled for this app.</b></noscript>
 			<h1>VNet+P Bookmark Pastelet Setup</h1>
 			<div class="grp">
+<<<<<<< HEAD
 				<p>These steps add a <i><a href="http://mmind.me/" title="Mmind:Pastelets &amp; more">Pastelet</a></i> bookmark to Mobile Safari that will complete the Username, check &ldquo;Agree to Terms&rdquo;, enter the password and then login. When creating multiple pastelets, press reset in-between doing each one. If you're unsure about entering your password; don't do it, instead use the form for <a href="http://mmind.me/vnet" title="VNet Pastelet">VNet Pastelet</a> (no password).</p>
+=======
+				<p>These steps make a bookmark that will fill-in the VisitorNet Username &amp; password, check the &ldquo;Agree to Terms&rdquo; box, and submit the login. When creating multiple bookmarks, press reset in-between doing each one.</p>
+				<p>If you're unsure about entering your password; don't do it, instead use the form for <a href="http://mmind.me/vnet" title="VNet Pastelet">VNet Pastelet</a> (no password).</p>
+>>>>>>> master
 			</div>
 
 			<h1>Step 1: Enter the text</h1>
@@ -202,7 +207,7 @@
 						<input type="email" id="pStr" class="pStr" name="uid" size="25" maxlength="255" placeholder="email@company.com" required="required" autocorrect="on" autocapitalize="off" autofocus>
 					</label>
 					<label for="pwd"><br>Password:&nbsp;
-						<input type="password" id="pwd" class="pStr" name="pwd" size="9" maxlength="255" autocorrect="off" autocapitalize="off">
+						<input type="password" id="pwd" class="pStr" name="pwd" size="9" maxlength="255" required="required" autocorrect="off" autocapitalize="off">
 					</label>&nbsp;&nbsp;&nbsp;<input type="button" id="reset" value="Reset" onclick="location.href=location.protocol+'//'+location.host+location.port+location.pathname">
 					<br><br>
 					<input type="submit" id="mkPltBtn" value="Make VNet Pastelet" class="btn">
@@ -258,9 +263,10 @@
 			<div class="grp">
 				<p>Note: The VNet+P Pastelet is experimental project done during off-hours. Let me know if you find something to fix.</p>
 				<p>Feedback is welcome. Contact me via <a href="mailto:mobilemind%40pobox%2ecom">mobilemind&#64;pobox&#46;com</a>.</p>
+				<p>Copyright &copy; 2011, 2012 Tom King. All rights reserved.</p>
 			</div>
 
-			<div class="vers">v@VERSION@</div>
+			<div class="vers">v_MmVERSION_</div>
 		</div>
 	</body>
 </html>
