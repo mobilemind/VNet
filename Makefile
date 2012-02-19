@@ -63,6 +63,17 @@ $(PROJ)  $(SUBPROJ): $(MANIFESTS) $(COMPRESSEDFILES) | $(WEBDIR)
 		cd $(BUILDDIR); \
 		$(REPLACETOKENS) )
 
+# deploy
+.PHONY: deploy
+deploy: default
+	@echo "Deploy to: $$MYSERVER/me"
+	@scp -p $(WEBDIR)/vnet $$MYUSER@$$MYSERVER:$$MYSERVERHOME/me
+	@scp -p $(WEBDIR)/vnet.manifest $$MYUSER@$$MYSERVER:$$MYSERVERHOME/me/vnet.manifest
+	@scp -p $(WEBDIR)/vnetp $$MYUSER@$$MYSERVER:$$MYSERVERHOME/me
+	@scp -p $(WEBDIR)/vnetp.manifest $$MYUSER@$$MYSERVER:$$MYSERVERHOME/me/vnetp.manifest
+	@scp -p $(WEBDIR)/img/* $$MYUSER@$$MYSERVER:$$MYSERVERHOME/me/img
+	@printf "\nDone. Deployed $(PROJECTS) to $$MYSERVER/me\n\n"
+
 .PHONY: $(BUILDDIR)
 $(BUILDDIR):
 	@[[ -d $(BUILDDIR) ]] || mkdir -m 744 $(BUILDDIR)
