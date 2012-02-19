@@ -181,6 +181,7 @@
 			//
 
 			function pastelet(u,p) {
+				u = u.match(/^ *(.*?) *$/)[1]; // strip leading/trailing spaces to help w/iOS 5 shortcut text
 				return !(u + p) ? '' : "document.getElementsByName('uid')[0].value='"+u+"';document.getElementById('pwd').value='"+p+"';document.getElementsByName('agreeToTerms')[0].checked=1;document.forms[0].submit();void('_MmVERSION_')";
 			}
 		</script>
