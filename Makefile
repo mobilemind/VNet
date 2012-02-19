@@ -26,14 +26,12 @@ HTMLCOMPRESSORJAR := htmlcompressor-1.5.2.jar
 HTMLCOMPRESSORPATH := $(shell [[ 'cygwin' == $$OSTYPE ]] &&  echo "`cygpath -w $(COMMONLIB)`\\" || echo "$(COMMONLIB)/")
 HTMLCOMPRESSOR := java -jar '$(HTMLCOMPRESSORPATH)$(HTMLCOMPRESSORJAR)'
 COMPRESSOPTIONS := -t html -c utf-8 --remove-quotes --remove-intertag-spaces --remove-surrounding-spaces min --compress-js --compress-css
-GROWL := $(shell ! hash growlnotify &>/dev/null && echo 'true' || ([[ 'darwin11' == $$OSTYPE ]] && echo "growlnotify -t $(PROJ) -m" || ([[ 'cygwin' == $$OSTYPE ]] && echo -e "growlnotify /t:$(PROJ)\c" || echo)) )
+GRECHO = $(shell hash grecho &> /dev/null && echo 'grecho' || echo 'printf')
 REPLACETOKENS = perl -p -i -e 's/$(MMVERSION)/$(VERSION)/g;' $@; perl -p -i -e 's/$(MMBUILDDATE)/$(BUILDDATE)/g;' $@
 
 
 default: $(PROJECTS) | $(BUILDDIR) $(WEBDIR) $(IMGDIR)
-	@(chmod -R 744 $(WEBDIR); \
-		$(GROWL) "Done. See $(PROJ)/$(WEBDIR) directory."; echo; \
-		echo "Done. See $(PROJ)/$(WEBDIR) directory"; echo )
+	@(chmod -R 755 $(WEBDIR); $(GRECHO) 'make:' "Done. See $(PROJ)/$(WEBDIR) directory.\n" )
 
 $(PROJ)  $(SUBPROJ): $(MANIFESTS) $(COMPRESSEDFILES) | $(WEBDIR)
 	@(echo; \
@@ -67,12 +65,12 @@ $(PROJ)  $(SUBPROJ): $(MANIFESTS) $(COMPRESSEDFILES) | $(WEBDIR)
 .PHONY: deploy
 deploy: default
 	@echo "Deploy to: $$MYSERVER/me"
-	@scp -p $(WEBDIR)/vnet $$MYUSER@$$MYSERVER:$$MYSERVERHOME/me
-	@scp -p $(WEBDIR)/vnet.manifest $$MYUSER@$$MYSERVER:$$MYSERVERHOME/me/vnet.manifest
-	@scp -p $(WEBDIR)/vnetp $$MYUSER@$$MYSERVER:$$MYSERVERHOME/me
-	@scp -p $(WEBDIR)/vnetp.manifest $$MYUSER@$$MYSERVER:$$MYSERVERHOME/me/vnetp.manifest
-	@scp -p $(WEBDIR)/img/* $$MYUSER@$$MYSERVER:$$MYSERVERHOME/me/img
-	@printf "\nDone. Deployed $(PROJECTS) to $$MYSERVER/me\n\n"
+	@(cd $(WEBDIR); \
+		scp -p vnet vnetp *.manifest "$$MYUSER@$$MYSERVER:$$MYSERVERHOME/me"; \
+		scp -p img/*.* "$$MYUSER@$$MYSERVER:$$MYSERVERHOME/me/img"; \
+		echo \
+	)
+	@$(GRECHO) 'make:' "Done. Deployed $(PROJECTS) to $$MYSERVER/me\n"
 
 .PHONY: $(BUILDDIR)
 $(BUILDDIR):
