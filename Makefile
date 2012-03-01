@@ -28,7 +28,7 @@ IMG:
 .PHONY: deploy
 deploy: default
 	@echo '    Checking "git diff --name-only" to trigger "git push gh-pages"'
-	[[ -n "$CHANGEDFILES" ]] && (\
+	@[[ -n "$CHANGEDFILES" ]] && (\
 		for AFILE in $(CHANGEDFILES); do git add $$AFILE; done; \
 		git commit -m 'revised HTML'; git push ) \
 	|| true
