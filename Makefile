@@ -70,7 +70,8 @@ deploy: default
 		scp -p img/*.* "$$MYUSER@$$MYSERVER:$$MYSERVERHOME/me/img"; \
 		echo \
 	)
-	@$(GRECHO) 'make:' "Done. Deployed $(PROJECTS) to $$MYSERVER/me\n"
+	@$(GRECHO) 'make:' "Done. Deployed $(PROJECTS) to $$MYSERVER/me\nTo update gh-pages on github.com do:\
+		\n\tgit checkout gh-pages && make deploy && git checkout master\n"
 
 .PHONY: $(BUILDDIR)
 $(BUILDDIR):
