@@ -1,29 +1,39 @@
 # VNet #
 
-The "VNet" bookmarklet streamlines logging in to Roving Planet, “VisitorNet” sites that control access to WiFi networks. The bookmarklet will paste in the Username, check the “Agree to Terms” box and set input focus on the password field.
+The “VNet” bookmarklet streamlines logging in to Roving Planet, “VisitorNet” sites that
+control access to WiFi networks. The bookmarklet will paste in the Username, check the
+“Agree to Terms” box and set input focus on the password field.
 
-The sister version "VNet+P" adds the capability to complete the password too. Generally not a good idea, unless it is a low stakes environment.
+The sister version "VNet+P" adds the capability to complete the password too. Generally
+not a good idea, unless it is a low stakes environment.
 
 ## Install ##
 
 **Mobile Safari**
-The [hosted VNet page](http://mmind.me/vnet) is a form that will create the bookmarklet and explains how to store and edit the bookmarklet on your iPad or iPhone.
-Tap the [hosted VNet page](http://mmind.me/vnet) link and follow the instructions.
+The [hosted VNet page](http://mmind.me/vnet) is a form that will create the bookmarklet and
+explains how to store and edit the bookmarklet on your iPad or iPhone. Tap the
+[hosted VNet page](http://mmind.me/vnet) link and follow the instructions.
 
 The [hosted VNet+P page](http://mmind.me/vnetp) is a form that will create a
 bookmarklet that fills all credentials *and* automatically submits the completed login form.
+
+The same forms are also hosted on github as [github hosted VNet page](http://mobilemind.github.com/VNet/vnet.html)
+and [github hosted VNet+P page](http://mobilemind.github.com/VNet/vnetp.html).
 
 ## Use ##
 
 Connect to the WiFi network and open a web page. The VisitorNet sign-in page should appear.
 
-Activate the VNet bookmarklet (tap on the link for it in the bookmark bar or use Bookmarks menu). The default bookmark title is usually “login ___name___…” where ___name___ is the first part of your Username (email).
+Activate the VNet bookmarklet (tap on the link for it in the bookmark bar or use Bookmarks
+menu). The default bookmark title is usually “login ___name___…” where ___name___ is the
+first part of your Username (email).
 
-The bookmarklet created via installation will paste in the Username, check the “Agree to Terms” box and set input focus on the password field of the VisitorNet sign-in form.
+The bookmarklet created via installation will paste in the Username, check the “Agree to
+Terms” box and set input focus on the password field of the VisitorNet sign-in form.
 
 #### Compatibility
 
-Tested with Firefox 6.0.x - 9.0.x, Safari 5.0.x, Mobile Safari 4.x, and IE 8.
+Tested with Firefox 6.0.x - 10.0.x, Safari 5.0.x, and Mobile Safari 5.x.
 
 ----------
 
@@ -57,14 +67,15 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ## Build Requirements ##
 
-The VNet Makefile requires htmlcompressor. The htmlcompressor project has its own license and sub-projects.
-End-users are responsible for obtaining a htmlcompressor and its related components, under their respective
-license terms.
+The VNet Makefile requires htmlcompressor. The htmlcompressor project has its own license
+and sub-projects. End-users are responsible for obtaining a htmlcompressor and its related
+components, under their respective license terms.
 
 For htmlcompressor see: <https://code.google.com/p/htmlcompressor/>
 
-The VNet Makefile also requires bash shell, make, gzip, perl, tidy, jsl, node (nodejs on Windows) and optionally uses growlnotify.
-Required utilities are easily installed on Mac OS X via homebrew or on Windows via Cygwin setup.
+The VNet Makefile also requires bash shell, make, gzip, perl, tidy, jsl, node (nodejs on Windows)
+and optionally uses growlnotify. Required utilities are easily installed on Mac OS X via
+homebrew or on Windows via Cygwin setup.
 
 **Mac**
 
@@ -73,7 +84,8 @@ Required utilities are easily installed on Mac OS X via homebrew or on Windows v
 
 **Win**
 
-* For **Cygwin** and related utilities such as **make**, **gzip**, **perl**, **tidy**, **nodejs**, see: <http://www.cygwin.com/>
+* For **Cygwin** and related utilities such as **make**, **gzip**, **perl**, **tidy**, **nodejs**,
+see: <http://www.cygwin.com/>
 * For **growlnotify** (requires Growl for Windows), see: <http://growlforwindows.com>
 * For **jsl**, see: <http://www.javascriptlint.com/>
 
@@ -81,4 +93,5 @@ Required utilities are easily installed on Mac OS X via homebrew or on Windows v
 
 ## Build ##
 
-Use **make** at the command shell prompt to create the VNet HTML pages and manifests. See /web/ directory for results.
+Use **````make````** at the command shell prompt to create the VNet HTML pages and manifests.
+See **````/web/````** directory for results.
