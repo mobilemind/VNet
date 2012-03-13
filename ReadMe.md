@@ -30,6 +30,7 @@ first part of your Username (email).
 
 The bookmarklet created via installation will paste in the Username, check the “Agree to
 Terms” box and set input focus on the password field of the VisitorNet sign-in form.
+_Note: The VNet+P version will also enter the stored password and submit the form._
 
 #### Compatibility
 
@@ -96,5 +97,5 @@ see: <http://www.cygwin.com/>
 
 ## Build ##
 
-Use **````make````** at the command shell prompt to create the VNet HTML pages and manifests.
-See **````/web/````** directory for results.
+Use ````make```` at the command shell prompt to create the VNet HTML pages and manifests.
+See ````/web/```` directory for results.
