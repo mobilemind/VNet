@@ -33,7 +33,10 @@ Terms” box and set input focus on the password field of the VisitorNet sign-in
 
 #### Compatibility
 
-Tested with Firefox 6.0.x - 10.0.x, Safari 5.0.x, and Mobile Safari 5.x.
+Requires a browser that supports ````javascript:```` bookmarks.
+
+Tested with Firefox 6.0.x - 10.0.x, Google Chrome 10.0.x - 19.0.x,
+Safari 5.0.x - 5.1.x, Mobile Safari 4.x - 5.x, and IE 8.
 
 ----------
 
