@@ -77,9 +77,11 @@ components, under their respective license terms.
 
 For htmlcompressor see: <https://code.google.com/p/htmlcompressor/>
 
-The VNet Makefile also requires bash shell, make, gzip, perl, tidy, jsl, node (nodejs on Windows)
-and optionally uses growlnotify. Required utilities are easily installed on Mac OS X via
-homebrew or on Windows via Cygwin setup.
+The VNet Makefile also requires bash shell, make, gzip, perl, tidy (or tidy-html5), jsl,
+node (nodejs on Windows) and optionally uses growlnotify. Required utilities are easily
+installed on Mac OS X via homebrew or on Windows via Cygwin setup.
+
+The W3C tidy-html5 is available here: <http://w3c.github.com/tidy-html5/>
 
 **Mac**
 
