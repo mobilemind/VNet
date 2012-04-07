@@ -1,0 +1,17 @@
+NOTICE
+
+VNet Project
+The VNet project is available under an MIT License, see
+LICENSE.TXT for details.
+
+The VNet project uses htmlcompressor which has its own license,
+and may require additional components available under separate
+license(s).
+
+HTMLCOMPRESSOR
+https://code.google.com/p/htmlcompressor/
+The htmlcompressor license, source and object code are available
+at the URL above. At the time of this writing, the copyright
+holder distributes under an Apache License.
+https://www.apache.org/licenses/LICENSE-2.0
+
