@@ -201,10 +201,10 @@
 				<p>Enter the Username to paste and password. Then tap <b>Make VNet+P Pastelet</b> to reload this page for Step 2.</p>
 				<form id="pltMkr" method="GET" action= "." onSubmit="loadpg(pastelet(document.getElementById('pStr').value,document.getElementById('pwd').value)); return false">
 					<label for="pStr">Username:&nbsp;
-						<input type="email" id="pStr" class="pStr" name="uid" size="25" maxlength="255" placeholder="email@company.com" required="required" autocorrect="on" autocapitalize="off" autofocus>
+						<input type="email" id="pStr" class="pStr" name="uid" size="25" maxlength="255" placeholder="email@company.com" autocorrect="on" autocapitalize="off" autocomplete="on" required="required" autofocus="autofocus">
 					</label>
 					<label for="pwd"><br>Password:&nbsp;
-						<input type="password" id="pwd" class="pStr" name="pwd" size="9" maxlength="255" required="required" autocorrect="off" autocapitalize="off">
+						<input type="password" id="pwd" class="pStr" name="pwd" size="9" maxlength="255" required="required" autocorrect="off" autocapitalize="off" autocomplete="off">
 					</label>&nbsp;&nbsp;&nbsp;<input type="button" id="reset" value="Reset" onclick="location.href=location.protocol+'//'+location.host+location.port+location.pathname">
 					<br><br>
 					<input type="submit" id="mkPltBtn" value="Make VNet Pastelet" class="btn">
