@@ -67,8 +67,8 @@ $(PROJ)  $(SUBPROJ): $(MANIFESTS) $(COMPRESSEDFILES) | $(WEBDIR)
 deploy: default
 	@echo "Deploy to: $$MYSERVER/me"
 	@(cd $(WEBDIR); \
-		scp -p vnet vnetp *.manifest "$$MYUSER@$$MYSERVER:$$MYSERVERHOME/me"; \
-		scp -p img/*.* "$$MYUSER@$$MYSERVER:$$MYSERVERHOME/me/img"; \
+		scp -p $(PROJ) $(SUBPROJ) *.manifest "$$MYUSER@$$MYSERVER:$$MYSERVERHOME/me"; \
+		scp -p $(IMGDIR)/*.* "$$MYUSER@$$MYSERVER:$$MYSERVERHOME/me/$(IMGDIR)"; \
 		echo \
 	)
 	@$(GRECHO) 'make:' "Done. Deployed $(PROJECTS) to $$MYSERVER/me\nTo update gh-pages on github.com do:\
