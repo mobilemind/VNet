@@ -71,6 +71,13 @@ deploy: default
 		scp -p $(IMGDIR)/*.* "$$MYUSER@$$MYSERVER:$$MYSERVERHOME/me/$(IMGDIR)"; \
 		echo \
 	)
+	@(mkdir -pv $$HOME/.$(PROJ)/$(IMGDIR);  \
+		cd $(WEBDIR); \
+		echo "Preparing for gh-pages, copying to: $$HOME/.$(PROJ)"; \
+		cp -fpv $(PROJ) $(SUBPROJ) *.manifest $$HOME/.$(PROJ); \
+		cp -fpv $(IMGDIR)/*.* $$HOME/.$(PROJ)/$(IMGDIR); \
+		echo \
+	)
 	@$(GRECHO) 'make:' "Done. Deployed $(PROJECTS) to $$MYSERVER/me\nTo update gh-pages on github.com do:\
 		\n\tgit checkout gh-pages && make deploy && git checkout master\n"
 
@@ -88,5 +95,6 @@ $(IMGDIR): | $(BUILDDIR)
 
 .PHONY: clean
 clean:
-	@echo 'Cleaning build directory and web directory...'
+	@echo 'Cleaning build directory, web directory, and ~/.($PROJ)...'
+	@[[ -d $$HOME/.$(PROJ) ]] && rm -rf $$HOME/.$(PROJ) || true
 	@rm -rf $(BUILDDIR)/* $(WEBDIR)/* || true
