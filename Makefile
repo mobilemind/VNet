@@ -11,6 +11,7 @@ BUILDDIR := build
 COMMONLIB := $$HOME/common/lib
 WEBDIR := web
 IMGDIR := img
+TMPDIR := $$HOME/.$(PROJ)
 VPATH := $(WEBDIR):$(BUILDDIR)
 # files
 PROJECTS = $(PROJ) $(SUBPROJ)
@@ -32,7 +33,7 @@ GRECHO = $(shell hash grecho &> /dev/null && echo 'grecho' || echo 'printf')
 REPLACETOKENS = perl -p -i -e 's/$(MMVERSION)/$(VERSION)/g;' $@; perl -p -i -e 's/$(MMBUILDDATE)/$(BUILDDATE)/g;' $@
 
 default: $(PROJECTS) | $(BUILDDIR) $(WEBDIR) $(IMGDIR)
-	@(chmod -R 755 $(WEBDIR); $(GRECHO) 'make:' "Done. See $(PROJ)/$(WEBDIR) directory.\n" )
+	@(chmod -R 755 $(WEBDIR); $(GRECHO) 'make:' "Done. See $(PROJ)/$(WEBDIR) directory for v$(VERSION).\n" )
 
 $(PROJ)  $(SUBPROJ): $(MANIFESTS) $(COMPRESSEDFILES) | $(WEBDIR)
 	@(echo; \
@@ -67,18 +68,19 @@ $(PROJ)  $(SUBPROJ): $(MANIFESTS) $(COMPRESSEDFILES) | $(WEBDIR)
 deploy: default
 	@echo "Deploy to: $$MYSERVER/me"
 	@(cd $(WEBDIR); \
-		scp -p $(PROJ) $(SUBPROJ) *.manifest "$$MYUSER@$$MYSERVER:$$MYSERVERHOME/me"; \
-		scp -p $(IMGDIR)/*.* "$$MYUSER@$$MYSERVER:$$MYSERVERHOME/me/$(IMGDIR)"; \
+		rsync -ptv --executability $(PROJ) $(SUBPROJ) *.manifest "$$MYUSER@$$MYSERVER:$$MYSERVERHOME/me"; \
+		rsync -pt $(IMGDIR)/*.* "$$MYUSER@$$MYSERVER:$$MYSERVERHOME/me/$(IMGDIR)"; \
 		echo \
 	)
-	@(mkdir -pv $$HOME/.$(PROJ)/$(IMGDIR);  \
+	@echo "Preparing for gh-pages, copying to: $(TMPDIR)"
+	@([[ -d $(TMPDIR)/$(IMGDIR) ]] || mkdir -pv $(TMPDIR)/$(IMGDIR);  \
 		cd $(WEBDIR); \
-		echo "Preparing for gh-pages, copying to: $$HOME/.$(PROJ)"; \
-		cp -fpv $(PROJ) $(SUBPROJ) *.manifest $$HOME/.$(PROJ); \
-		cp -fpv $(IMGDIR)/*.* $$HOME/.$(PROJ)/$(IMGDIR); \
-		echo \
+		rsync -ptv --executability $(PROJ) $(SUBPROJ) *.manifest $(TMPDIR); \
+		rsync -pt $(IMGDIR)/*.* $(TMPDIR)/$(IMGDIR); \
+		rsync -pt ../$(VERSIONTXT) $(TMPDIR); \
 	)
-	@$(GRECHO) 'make:' "Done. Deployed $(PROJECTS) to $$MYSERVER/me\nTo update gh-pages on github.com do:\
+	@$(GRECHO) '\nmake:' "Done. Deployed v$(VERSION) $(PROJECTS) to $$MYSERVER/me \
+		\nTo update gh-pages on github.com do:\
 		\n\tgit checkout gh-pages && make deploy && git checkout master\n"
 
 .PHONY: $(BUILDDIR)
@@ -95,6 +97,6 @@ $(IMGDIR): | $(BUILDDIR)
 
 .PHONY: clean
 clean:
-	@echo 'Cleaning build directory, web directory, and ~/.($PROJ)...'
-	@[[ -d $$HOME/.$(PROJ) ]] && rm -rf $$HOME/.$(PROJ) || true
+	@echo 'Cleaning build directory, web directory, and $(TMPDIR)'
 	@rm -rf $(BUILDDIR)/* $(WEBDIR)/* || true
+	@[[ -d $(TMPDIR) ]] && rm -rfv $(TMPDIR) || true
