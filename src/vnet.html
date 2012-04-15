@@ -45,7 +45,7 @@
 			div.grp {
 				margin: 0 10px;
 				padding: 0;
-				width: 92%;
+				width: 95%;
 				background-color: #e0e4eb;
 				border: 1px solid #d9d9d9;
 				font-size: 15px;
@@ -196,7 +196,7 @@
 				<p>Enter the Username to paste. Then tap <b>Make VNet Pastelet</b> to reload this page for Step 2.</p>
 				<form id="pltMkr" method="GET" action="." onSubmit="loadpg(pastelet(document.getElementById('pStr').value)); return false">
 					<label for="pStr">Username:&nbsp;
-						<input type="email" id="pStr" class="pStr" name="uid" size="25" maxlength="255" placeholder="email@company.com" autocorrect="on" autocapitalize="off" autocomplete="on" required="required" autofocus="autofocus">
+						<input type="email" id="pStr" class="pStr" name="uid" size="25" maxlength="255" placeholder="email@company.com" autocorrect="on" autocapitalize="off" autocomplete="on" spellcheck="false" autofocus required>
 					</label>&nbsp;&nbsp;<input type="button" id="reset" value="Reset" onclick="location.href=location.protocol+'//'+location.host+location.port+location.pathname">
 					<br><br>
 					<input type="submit" id="mkPltBtn" value="Make VNet Pastelet" class="btn">
