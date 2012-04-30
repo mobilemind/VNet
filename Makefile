@@ -5,6 +5,7 @@
 ##
 PROJ = vnet
 SUBPROJ = vnetp
+
 # directories/paths
 SRCDIR := src
 BUILDDIR := build
@@ -13,11 +14,13 @@ WEBDIR := web
 IMGDIR := img
 TMPDIR := $$HOME/.$(PROJ)
 VPATH := $(WEBDIR):$(BUILDDIR)
+
 # files
 PROJECTS = $(PROJ) $(SUBPROJ)
 COMPRESSEDFILES = $(PROJ).html.gz $(SUBPROJ).html.gz
 MANIFESTS = $(PROJ).manifest $(SUBPROJ).manifest
 VERSIONTXT := $(SRCDIR)/VERSION.txt
+
 # macros/utils
 MMBUILDDATE := _MmBUILDDATE_
 BUILDDATE := $(shell date)
@@ -36,11 +39,10 @@ default: $(PROJECTS) | $(BUILDDIR) $(WEBDIR) $(IMGDIR)
 	@(chmod -R 755 $(WEBDIR); $(GRECHO) 'make:' "Done. See $(PROJ)/$(WEBDIR) directory for v$(VERSION).\n" )
 
 $(PROJ)  $(SUBPROJ): $(MANIFESTS) $(COMPRESSEDFILES) | $(WEBDIR)
-	@(echo; \
-		echo "Copying built files..."; \
-		cp -fp $(BUILDDIR)/$@.html.gz $(WEBDIR)/$@; \
-		cp -fp $(BUILDDIR)/$@.manifest $(WEBDIR); \
-		cp -Rfp $(SRCDIR)/$(IMGDIR) $(WEBDIR) )
+	@printf "\nCopying built files...\n"
+	@cp -fp $(BUILDDIR)/$@.html.gz $(WEBDIR)/$@
+	@cp -fp $(BUILDDIR)/$@.manifest $(WEBDIR)
+	@cp -Rfp $(SRCDIR)/$(IMGDIR) $(WEBDIR)
 
 # run through html compressor and into gzip
 %.html.gz: %.html | $(BUILDDIR)
@@ -49,19 +51,18 @@ $(PROJ)  $(SUBPROJ): $(MANIFESTS) $(COMPRESSEDFILES) | $(WEBDIR)
 
 # copy HTML to $(BUILDDIR) and replace tokens, then check with tidy & jsl (JavaScript Lint)
 %.html: $(SRCDIR)/%.html $(VERSIONTXT) | $(BUILDDIR)
-	@(echo; echo "$@: validate with $(TIDY) and $(JSL)"; \
-		cp -f $(SRCDIR)/$@ $(BUILDDIR); \
-		cd $(BUILDDIR); \
+	@printf "\n$@: validate with $(TIDY) and $(JSL)\n"
+	@cp -f $(SRCDIR)/$@ $(BUILDDIR)
+	@(cd $(BUILDDIR); \
 		$(REPLACETOKENS); \
 		$(TIDY) -eq $@; [[ $$? -lt 2 ]] && true; \
 		$(JSL) -process $@ -nologo -nofilelisting -nosummary )
 
 # copy manifest to $(BUILDDIR) and replace tokens
 %.manifest: $(SRCDIR)/%.manifest $(VERSIONTXT) | $(BUILDDIR)
-	@(echo; echo $@; \
-		cp -fp $(SRCDIR)/$@ $(BUILDDIR); \
-		cd $(BUILDDIR); \
-		$(REPLACETOKENS) )
+	@printf "\n$@\n"
+	@cp -fp $(SRCDIR)/$@ $(BUILDDIR)
+	@(cd $(BUILDDIR); $(REPLACETOKENS))
 
 # deploy
 .PHONY: deploy
@@ -70,15 +71,13 @@ deploy: default
 	@(cd $(WEBDIR); \
 		rsync -ptv --executability $(PROJ) $(SUBPROJ) *.manifest "$$MYUSER@$$MYSERVER:$$MYSERVERHOME/me"; \
 		rsync -pt $(IMGDIR)/*.* "$$MYUSER@$$MYSERVER:$$MYSERVERHOME/me/$(IMGDIR)"; \
-		echo \
-	)
-	@echo "Preparing for gh-pages, copying to: $(TMPDIR)"
-	@([[ -d $(TMPDIR)/$(IMGDIR) ]] || mkdir -pv $(TMPDIR)/$(IMGDIR);  \
-		cd $(WEBDIR); \
+		echo )
+	@printf "\nPreparing for gh-pages, copying to: $(TMPDIR)\n"
+	@[[ -d $(TMPDIR)/$(IMGDIR) ]] || mkdir -pv $(TMPDIR)/$(IMGDIR)
+	@(cd $(WEBDIR); \
 		rsync -ptv --executability $(PROJ) $(SUBPROJ) *.manifest $(TMPDIR); \
 		rsync -pt $(IMGDIR)/*.* $(TMPDIR)/$(IMGDIR); \
-		rsync -pt ../$(VERSIONTXT) $(TMPDIR); \
-	)
+		rsync -pt ../$(VERSIONTXT) $(TMPDIR) )
 	@$(GRECHO) '\nmake:' "Done. Deployed v$(VERSION) $(PROJECTS) to $$MYSERVER/me \
 		\nTo update gh-pages on github.com do:\
 		\n\tgit checkout gh-pages && make deploy && git checkout master\n"
