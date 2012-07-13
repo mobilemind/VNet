@@ -1,5 +1,4 @@
-# VNet #
-
+# VNet
 The “VNet” bookmarklet streamlines logging in to Roving Planet, “VisitorNet” sites that
 control access to WiFi networks. The bookmarklet will paste in the Username, check the
 “Agree to Terms” box and set input focus on the password field.
@@ -7,12 +6,11 @@ control access to WiFi networks. The bookmarklet will paste in the Username, che
 The sister version "VNet+P" adds the capability to complete the password too. Generally
 not a good idea, unless it is a low stakes environment.
 
-## Install ##
-
+# Install
 **Mobile Safari**
-The [hosted VNet page](http://mmind.me/vnet) is a form that will create the bookmarklet and
+The [hosted VNet page][vnet] is a form that will create the bookmarklet and
 explains how to store and edit the bookmarklet on your iPad or iPhone. Tap the
-[hosted VNet page](http://mmind.me/vnet) link and follow the instructions.
+[hosted VNet page][vnet] link and follow the instructions.
 
 The [hosted VNet+P page](http://mmind.me/vnetp) is a form that will create a
 bookmarklet that fills all credentials *and* automatically submits the completed login form.
@@ -20,8 +18,9 @@ bookmarklet that fills all credentials *and* automatically submits the completed
 The same forms are also hosted on github as [github hosted VNet page](http://mobilemind.github.com/VNet/vnet.html)
 and [github hosted VNet+P page](http://mobilemind.github.com/VNet/vnetp.html).
 
-## Use ##
+[vnet]: http://mmind.me/vnet
 
+# Use
 Connect to the WiFi network and open a web page. The VisitorNet sign-in page should appear.
 
 Activate the VNet bookmarklet (tap on the link for it in the bookmark bar or use Bookmarks
@@ -32,18 +31,14 @@ The bookmarklet created via installation will paste in the Username, check the �
 Terms” box and set input focus on the password field of the VisitorNet sign-in form.
 _Note: The VNet+P version will also enter the stored password and submit the form._
 
-#### Compatibility
+## Compatibility
+Requires a browser that supports `javascript:` bookmarks.
 
-Requires a browser that supports ````javascript:```` bookmarks.
+Tested with Firefox 6.x - 12.x, Google Chrome 10.x - 19.x, IE 8, Safari 5.0.x - 5.1.x,
+and Mobile Safari 4.x - 5.x.
 
-Tested with Firefox 6.0.x - 10.0.x, Google Chrome 10.0.x - 19.0.x,
-Safari 5.0.x - 5.1.x, Mobile Safari 4.x - 5.x, and IE 8.
-
-----------
-
-## License ##
-
-MIT License - [http://www.opensource.org/licenses/mit-license.php](http://www.opensource.org/licenses/mit-license.php)
+# License
+MIT License - <http://www.opensource.org/licenses/mit-license.php>
 
 VNet
 Copyright (c) 2011-2012 Tom King <mobilemind@pobox.com>
@@ -67,10 +62,7 @@ LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
 OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-----------
-
-## Build Requirements ##
-
+# Build Requirements
 The VNet Makefile requires htmlcompressor. The htmlcompressor project has its own license
 and sub-projects. End-users are responsible for obtaining a htmlcompressor and its related
 components, under their respective license terms.
@@ -95,9 +87,6 @@ see: <http://www.cygwin.com/>
 * For **growlnotify** (requires Growl for Windows), see: <http://growlforwindows.com>
 * For **jsl**, see: <http://www.javascriptlint.com/>
 
-----------
-
-## Build ##
-
-Use ````make```` at the command shell prompt to create the VNet HTML pages and manifests.
-See ````/web/```` directory for results.
+# Build
+Use `make` at the command shell prompt to create the VNet HTML pages and manifests.
+See `/web/` directory for results.
