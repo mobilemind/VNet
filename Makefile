@@ -29,7 +29,7 @@ VERSION := $(shell head -1 $(VERSIONTXT))
 HTMLCOMPRESSORJAR := htmlcompressor-1.5.2.jar
 HTMLCOMPRESSORPATH := $(shell [[ 'cygwin' == $$OSTYPE ]] && echo "`cygpath -w $(COMMONLIB)`\\" || echo "$(COMMONLIB)/")
 HTMLCOMPRESSOR := java -jar '$(HTMLCOMPRESSORPATH)$(HTMLCOMPRESSORJAR)'
-COMPRESSOPTIONS := -t html -c utf-8 --remove-quotes --remove-intertag-spaces --remove-surrounding-spaces min --compress-js --compress-css
+COMPRESSOPTIONS := -t html -c utf-8 --remove-quotes --remove-intertag-spaces --remove-surrounding-spaces min --remove-input-attr --remove-form-attr --remove-script-attr --remove-http-protocol --compress-js --compress-css --nomunge
 TIDY := $(shell hash tidy-html5 2>/dev/null && echo 'tidy-html5' || (hash tidy 2>/dev/null && echo 'tidy' || exit 1))
 JSL := $(shell hash jsl 2>/dev/null && echo 'jsl' || exit 1)
 GRECHO = $(shell hash grecho &> /dev/null && echo 'grecho' || echo 'printf')
@@ -46,8 +46,8 @@ $(PROJ)  $(SUBPROJ): $(MANIFESTS) $(COMPRESSEDFILES) | $(WEBDIR)
 
 # run through html compressor and into gzip
 %.html.gz: %.html | $(BUILDDIR)
-	@(echo "Compressing $^..."; \
-		$(HTMLCOMPRESSOR) $(COMPRESSOPTIONS) $(BUILDDIR)/$^ | gzip -f9 > $(BUILDDIR)/$@ )
+	@echo "Compressing $^..."
+	@$(HTMLCOMPRESSOR) $(COMPRESSOPTIONS) $(BUILDDIR)/$^ | gzip -f9 > $(BUILDDIR)/$@
 
 # copy HTML to $(BUILDDIR) and replace tokens, then check with tidy & jsl (JavaScript Lint)
 %.html: $(SRCDIR)/%.html $(VERSIONTXT) | $(BUILDDIR)
@@ -68,19 +68,15 @@ $(PROJ)  $(SUBPROJ): $(MANIFESTS) $(COMPRESSEDFILES) | $(WEBDIR)
 .PHONY: deploy
 deploy: default
 	@echo "Deploy to: $$MYSERVER/me"
-	@(cd $(WEBDIR); \
-		rsync -ptv --executability $(PROJ) $(SUBPROJ) *.manifest "$$MYUSER@$$MYSERVER:$$MYSERVERHOME/me"; \
-		rsync -pt $(IMGDIR)/*.* "$$MYUSER@$$MYSERVER:$$MYSERVERHOME/me/$(IMGDIR)"; \
-		echo )
-	@printf "\nPreparing for gh-pages, copying to: $(TMPDIR)\n"
+	@rsync -ptv --executability $(WEBDIR)/$(PROJ) $(WEBDIR)/$(SUBPROJ) $(WEBDIR)/*.manifest "$$MYUSER@$$MYSERVER:$$MYSERVERHOME/me"
+	@rsync -pt $(WEBDIR)/$(IMGDIR)/*.* "$$MYUSER@$$MYSERVER:$$MYSERVERHOME/me/$(IMGDIR)"
+	@printf "\n\nPreparing for gh-pages, copying to: $(TMPDIR)\n"
 	@[[ -d $(TMPDIR)/$(IMGDIR) ]] || mkdir -pv $(TMPDIR)/$(IMGDIR)
-	@(cd $(WEBDIR); \
-		rsync -ptv --executability $(PROJ) $(SUBPROJ) *.manifest $(TMPDIR); \
-		rsync -pt $(IMGDIR)/*.* $(TMPDIR)/$(IMGDIR); \
-		rsync -pt ../$(VERSIONTXT) $(TMPDIR) )
+	@rsync -ptv --executability $(WEBDIR)/$(PROJ) $(WEBDIR)/$(SUBPROJ) $(WEBDIR)/*.manifest $(TMPDIR)
+	@rsync -pt $(WEBDIR)/$(IMGDIR)/*.* $(TMPDIR)/$(IMGDIR)
+	@rsync -pt $(VERSIONTXT) $(TMPDIR)
 	@$(GRECHO) '\nmake:' "Done. Deployed v$(VERSION) $(PROJECTS) to $$MYSERVER/me \
-		\nTo update gh-pages on github.com do:\
-		\n\tgit checkout gh-pages && make deploy && git checkout master\n"
+		\nTo update gh-pages on github.com do:\n\tgit checkout gh-pages && make deploy && git checkout master\n"
 
 .PHONY: $(BUILDDIR)
 $(BUILDDIR):
